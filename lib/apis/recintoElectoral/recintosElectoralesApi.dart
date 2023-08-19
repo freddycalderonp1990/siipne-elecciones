@@ -3,14 +3,14 @@ part of '../apis.dart';
 class RecintosElectoralesApi {
   static const String tag = "RecintosElectorales";
 
-  Future<List<RecintosElectoral>> getRecintosElectoralesCercanos({
-    @required BuildContext context,
-    @required String latitud,
-    @required String longitud,
-    @required String idDgoProcElec,
-    @required String idDgoTipoEje,
-    String msj1='',  String title=''
-  }) async {
+  Future<List<RecintosElectoral>> getRecintosElectoralesCercanos(
+      {@required BuildContext context,
+      @required String latitud,
+      @required String longitud,
+      @required String idDgoProcElec,
+      @required String idDgoTipoEje,
+      String msj1 = '',
+      String title = ''}) async {
     try {
       String titleJson = "recintosElectorales";
 
@@ -21,18 +21,17 @@ class RecintosElectoralesApi {
         "longitud": longitud,
         "idDgoProcElec": idDgoProcElec,
         "idDgoTipoEje": idDgoTipoEje,
-
       };
 
-      String msgMostar='No existen Recintos Electorales Cercanos',titleMostrar='Recintos Electorales';
-      if(msj1!=''){
-        msgMostar=msj1;
+      String msgMostar = 'No existen Recintos Electorales Cercanos',
+          titleMostrar = 'Recintos Electorales';
+      if (msj1 != '') {
+        msgMostar = msj1;
       }
 
-      if(title!=''){
-        titleMostrar=title;
+      if (title != '') {
+        titleMostrar = title;
       }
-
 
       //cUANDO SE NECESITA LOS METODOS ESPECIFICO PARA CADA MODULO SE ENVIA POR PARAMETRO EL MODULO CORRESPONDIENTE
 
@@ -56,11 +55,8 @@ class RecintosElectoralesApi {
         if (list.length > 0) {
           return list;
         } else {
-
-
           DialogosWidget.alert(context,
-              title: titleMostrar,
-              message: msgMostar);
+              title: titleMostrar, message: msgMostar);
           return new List();
         }
       } else {
@@ -68,9 +64,7 @@ class RecintosElectoralesApi {
           DialogosWidget.alert(context, onTap: () {
             Navigator.of(context).pop();
             Navigator.of(context).pop();
-          },
-              title: titleMostrar,
-              message: msgMostar);
+          }, title: titleMostrar, message: msgMostar);
         } else {
           DialogosWidget.error(context, message: msj);
         }
@@ -86,12 +80,9 @@ class RecintosElectoralesApi {
     }
   }
 
-
-
   Future<List<RecintosElectoral>> getAllUnidadesPoliciales({
     @required BuildContext context,
     @required String usuario,
-
   }) async {
     try {
       String titleJson = "recintosElectorales";
@@ -100,14 +91,11 @@ class RecintosElectoralesApi {
       parametros = {
         ConstApi.varOpc: ConstApi.ConsultarAllUnidadesPoliciales,
         "usuario": usuario,
-
       };
 
-      String titleMostrar='Unidades Policiales';
+      String titleMostrar = 'Unidades Policiales';
 
-      String msgMostar='No existen Unidades Policiales';
-
-
+      String msgMostar = 'No existen Unidades Policiales';
 
       //cUANDO SE NECESITA LOS METODOS ESPECIFICO PARA CADA MODULO SE ENVIA POR PARAMETRO EL MODULO CORRESPONDIENTE
 
@@ -120,9 +108,7 @@ class RecintosElectoralesApi {
 
       //se verifica que el servidor envie una respuesta valida
       String msj =
-      ResponseApi.validateConsultas(json: json, titleJson: titleJson);
-
-
+          ResponseApi.validateConsultas(json: json, titleJson: titleJson);
 
       if (msj == ConstApi.varTrue) {
         String datos = getDatosModelFromString(json, titleJson);
@@ -133,11 +119,8 @@ class RecintosElectoralesApi {
         if (list.length > 0) {
           return list;
         } else {
-
-
           DialogosWidget.alert(context,
-              title: titleMostrar,
-              message: msgMostar);
+              title: titleMostrar, message: msgMostar);
           return new List();
         }
       } else {
@@ -145,9 +128,7 @@ class RecintosElectoralesApi {
           DialogosWidget.alert(context, onTap: () {
             Navigator.of(context).pop();
             Navigator.of(context).pop();
-          },
-              title: titleMostrar,
-              message: msgMostar);
+          }, title: titleMostrar, message: msgMostar);
         } else {
           DialogosWidget.error(context, message: msj);
         }
@@ -155,7 +136,8 @@ class RecintosElectoralesApi {
         return new List();
       }
     } catch (e) {
-      String msj = tag + " No se cargan las Unidades Policiales  ${e.toString()}";
+      String msj =
+          tag + " No se cargan las Unidades Policiales  ${e.toString()}";
       print(msj);
       DialogosWidget.error(context, message: msj);
 
@@ -173,7 +155,6 @@ class RecintosElectoralesApi {
     @required String idDgoProcElec,
     @required String idDgoReciUnidadPolicial,
     @required String telefono,
-
   }) async {
     try {
       String titleJson = "AbrirRecintoElectoral";
@@ -193,12 +174,14 @@ class RecintosElectoralesApi {
         "telefono": telefono,
       };
 
-      print("abrirRecintoElectoral");
+      print("abrirRecintoElectoral-json");
 
       //cUANDO SE NECESITA LOS METODOS ESPECIFICO PARA CADA MODULO SE ENVIA POR PARAMETRO EL MODULO CORRESPONDIENTE
 
       final json = await UrlApi.getUrl(context, parametros,
           modulo: ConstApi.moduloRecintoElectoral);
+
+      log("abrirRecintoElectoral-json:" + json);
 
       if (json == null) {
         return null;
@@ -211,28 +194,18 @@ class RecintosElectoralesApi {
       print(msj);
 
       if (msj == ConstApi.varTrue) {
-
-
         String datos = getDatosModelFromString(json, titleJson);
 
         print(datos);
         AbrirRecintoElectoral abrirRecintoElectoral =
             abrirRecintoElectoralModelFromJson(datos).abrirRecintoElectoral;
 
-
-
-
-
         return abrirRecintoElectoral;
-      }
-      else{
-
+      } else {
         DialogosWidget.alert(context,
             title: "Recintos Electorales",
             message: "No se realizó el registro. " + msj);
       }
-
-
     } catch (e) {
       String msj = tag + " No se crea el código ${e.toString()}";
       print(msj);
@@ -243,18 +216,16 @@ class RecintosElectoralesApi {
   }
 
 //Sirve para agregar y registrar personal en recinto electoral
-  Future<ResgistroPersEnRecElectoral> asignarPersonalEnRecintoElectoral({
-    @required BuildContext context,
-    @required String idDgoCreaOpReci,
-    @required String idGenPersona,
-    @required String usuario,
-    @required String latitud,
-    @required String longitud,
-    @required String idDgoReciElect,
-    @required String idDgoTipoEje,
-    @required String idRecintoElectoral
-
-  }) async {
+  Future<ResgistroPersEnRecElectoral> asignarPersonalEnRecintoElectoral(
+      {@required BuildContext context,
+      @required String idDgoCreaOpReci,
+      @required String idGenPersona,
+      @required String usuario,
+      @required String latitud,
+      @required String longitud,
+      @required String idDgoReciElect,
+      @required String idDgoTipoEje,
+      @required String idRecintoElectoral}) async {
     try {
       String titleJson = "resgistroPersEnRecElectoral";
 
@@ -301,7 +272,7 @@ class RecintosElectoralesApi {
             title: "Recintos Electorales",
             message: "Ya se encuentra asignado al recinto electoral \n" +
                 _resgistroPersEnRecElectoral.nomRecintoElec +
-              /*  "\n\nJefe/Encargado\n" +
+                /*  "\n\nJefe/Encargado\n" +
                 _resgistroPersEnRecElectoral.encargado +*/
                 "\n\nPara poder ser asignado a un nuevo recinto electoral abandone el recinto anterior y vuelva a intentar.");
 
@@ -314,7 +285,9 @@ class RecintosElectoralesApi {
 
         if (msj == ConstApi.varTrue) {
           DialogosWidget.alert(context, onTap: () {
-            UtilidadesUtil.pantallasAbrirNuevaCerrarTodas(context: context,pantalla: AppConfig.pantallaVerificarOperativoRecintoAbierto);
+            UtilidadesUtil.pantallasAbrirNuevaCerrarTodas(
+                context: context,
+                pantalla: AppConfig.pantallaVerificarOperativoRecintoAbierto);
             /*Navigator.pushReplacementNamed(
                 context, AppConfig.pantallaMenuRecintoElectoral);*/
           },
@@ -369,7 +342,7 @@ class RecintosElectoralesApi {
 
       RecintosElectoralesAbiertos _RecintosElectoralesAbiertos =
           new RecintosElectoralesAbiertos(
-              nomRecintoElec: "", idDgoCreaOpReci: "0",idDgoReciElect: "0");
+              nomRecintoElec: "", idDgoCreaOpReci: "0", idDgoReciElect: "0");
 
       if (msj == ConstApi.varTrue) {
         String datos = getDatosModelFromString(json, titleJson);
@@ -380,13 +353,11 @@ class RecintosElectoralesApi {
 
       return _RecintosElectoralesAbiertos;
     } catch (e) {
-      String msj = tag +
-          "${e.toString()}";
+      String msj = tag + "${e.toString()}";
       print(msj);
       DialogosWidget.error(context, message: msj);
 
-      throw new Exception(
-          '[No se Verifica el Personal -${msj}]');
+      throw new Exception('[No se Verifica el Personal -${msj}]');
     }
   }
 
@@ -432,30 +403,24 @@ class RecintosElectoralesApi {
       } else {
         DialogosWidget.alert(context,
             title: "Operativos",
-            message:
-                "No existen Operativos con este Código");
+            message: "No existen Operativos con este Código");
         return new DatosRecintoElectoralClass(nomRecintoElec: "");
       }
     } catch (e) {
-      String msj = tag +
-          "${e.toString()}";
+      String msj = tag + "${e.toString()}";
       print(msj);
       DialogosWidget.error(context, message: msj);
 
-      throw new Exception(
-          '[No Consulta datos del Encargado -${msj}]');
+      throw new Exception('[No Consulta datos del Encargado -${msj}]');
     }
   }
 
-
-
-
-  Future<bool> eliminarRecintoElectoralAbierto({
-    @required BuildContext context,
-    @required String idDgoCreaOpReci,
-    @required String usuario,
-    String msj1='',String title=''
-  }) async {
+  Future<bool> eliminarRecintoElectoralAbierto(
+      {@required BuildContext context,
+      @required String idDgoCreaOpReci,
+      @required String usuario,
+      String msj1 = '',
+      String title = ''}) async {
     try {
       String titleJson = "eliminarRecintoElectoral";
 
@@ -468,15 +433,14 @@ class RecintosElectoralesApi {
         "ip": ip,
       };
 
-
-      String msjMostrar='Recinto Electoral eliminado con éxito!. ',titleMostrar='Recintos Electorales';
-      if(msj1!=''){
-        msjMostrar=msj1;
+      String msjMostrar = 'Recinto Electoral eliminado con éxito!. ',
+          titleMostrar = 'Recintos Electorales';
+      if (msj1 != '') {
+        msjMostrar = msj1;
       }
-      if(title!=''){
-        titleMostrar=title;
+      if (title != '') {
+        titleMostrar = title;
       }
-
 
       //cUANDO SE NECESITA LOS METODOS ESPECIFICO PARA CADA MODULO SE ENVIA POR PARAMETRO EL MODULO CORRESPONDIENTE
 
@@ -492,36 +456,31 @@ class RecintosElectoralesApi {
 
       //se verifica que el servidor envie una respuesta valida
       String msj =
-      await ResponseApi.validateInsert(json: json, titleJson: titleJson);
+          await ResponseApi.validateInsert(json: json, titleJson: titleJson);
       print("el msj");
       print(msj);
 
       if (msj == ConstApi.varTrue) {
         print("estamos aquii");
-        DialogosWidget.alert(context,
-            title: titleMostrar,
-            message: msjMostrar ,
-        onTap: (){
-         /* Navigator.pushReplacementNamed(
+        DialogosWidget.alert(context, title: titleMostrar, message: msjMostrar,
+            onTap: () {
+          /* Navigator.pushReplacementNamed(
               context, AppConfig.pantallaMenuRecintoElectoral);*/
 
-          UtilidadesUtil.pantallasAbrirNuevaCerrarTodas(context: context,pantalla: AppConfig.pantallaVerificarOperativoRecintoAbierto);
-
-        
+          UtilidadesUtil.pantallasAbrirNuevaCerrarTodas(
+              context: context,
+              pantalla: AppConfig.pantallaVerificarOperativoRecintoAbierto);
         });
         return true;
-      }
-
-      else{
-
+      } else {
         DialogosWidget.alert(context,
             title: titleMostrar,
-            message: "No se pudo eliminar el ${titleMostrar}. Vuelva a intentarlo, o consulte con el administrador del sistema " + msj);
+            message:
+                "No se pudo eliminar el ${titleMostrar}. Vuelva a intentarlo, o consulte con el administrador del sistema " +
+                    msj);
         return false;
       }
-
-
-   } catch (e) {
+    } catch (e) {
       String msj = tag + "${e.toString()}";
       print(msj);
       DialogosWidget.error(context, message: msj);
@@ -530,17 +489,15 @@ class RecintosElectoralesApi {
     }
   }
 
-
-  Future<bool> abandonarRecintoElectoral({
-    @required BuildContext context,
-    @required String idDgoPerAsigOpe,
-    @required String usuario,
-    @required String latitud,
-    @required String longitud,
-    String msjDialogo,
-    String msj1='',String title=''
-
-  }) async {
+  Future<bool> abandonarRecintoElectoral(
+      {@required BuildContext context,
+      @required String idDgoPerAsigOpe,
+      @required String usuario,
+      @required String latitud,
+      @required String longitud,
+      String msjDialogo,
+      String msj1 = '',
+      String title = ''}) async {
     try {
       print('abandonar');
       String titleJson = "abandonarRecintoElectoral";
@@ -556,15 +513,14 @@ class RecintosElectoralesApi {
         "longitud": longitud,
       };
 
+      String msjMostrar = 'Usted  Abandonó con éxito el recinto Electoral!.',
+          titleMostrar = 'Recintos Electorales';
 
-
-      String msjMostrar='Usted  Abandonó con éxito el recinto Electoral!.',titleMostrar='Recintos Electorales';
-
-      if(msj1!=''){
-        msjMostrar=msj1;
+      if (msj1 != '') {
+        msjMostrar = msj1;
       }
-      if(title!=''){
-        titleMostrar=title;
+      if (title != '') {
+        titleMostrar = title;
       }
 
       //cUANDO SE NECESITA LOS METODOS ESPECIFICO PARA CADA MODULO SE ENVIA POR PARAMETRO EL MODULO CORRESPONDIENTE
@@ -578,33 +534,30 @@ class RecintosElectoralesApi {
 
       //se verifica que el servidor envie una respuesta valida
       String msj =
-      await ResponseApi.validateInsert(json: json, titleJson: titleJson);
+          await ResponseApi.validateInsert(json: json, titleJson: titleJson);
 
       print(msj);
 
       if (msj == ConstApi.varTrue) {
-
         DialogosWidget.alert(context,
             title: titleMostrar,
-            message: msjDialogo==null? msjMostrar: msjDialogo ,
-            onTap: (){
-             /* Navigator.pushReplacementNamed(
+            message: msjDialogo == null ? msjMostrar : msjDialogo, onTap: () {
+          /* Navigator.pushReplacementNamed(
                   context, AppConfig.pantallaMenuRecintoElectoral);*/
 
-              UtilidadesUtil.pantallasAbrirNuevaCerrarTodas(context: context,pantalla: AppConfig.pantallaVerificarOperativoRecintoAbierto);
-            });
+          UtilidadesUtil.pantallasAbrirNuevaCerrarTodas(
+              context: context,
+              pantalla: AppConfig.pantallaVerificarOperativoRecintoAbierto);
+        });
         return true;
-      }
-
-      else{
-
+      } else {
         DialogosWidget.alert(context,
             title: titleMostrar,
-            message: "No pudo abandonar el ${titleMostrar}. Vuelva a intentarlo, o consulte con el administrador del sistema " + msj);
+            message:
+                "No pudo abandonar el ${titleMostrar}. Vuelva a intentarlo, o consulte con el administrador del sistema " +
+                    msj);
         return false;
       }
-
-
     } catch (e) {
       String msj = tag + "No pudo abandonar el ${e.toString()}";
       print(msj);
@@ -614,16 +567,14 @@ class RecintosElectoralesApi {
     }
   }
 
-
-  Future<bool> finalizarRecintoElectoral({
-    @required BuildContext context,
-    @required String idDgoCreaOpReci,
-    @required String usuario,
-    @required String idDgoPerAsigOpe,
-    @required String idDgoTipoEje,
-
-    String msj1='',String title=''
-  }) async {
+  Future<bool> finalizarRecintoElectoral(
+      {@required BuildContext context,
+      @required String idDgoCreaOpReci,
+      @required String usuario,
+      @required String idDgoPerAsigOpe,
+      @required String idDgoTipoEje,
+      String msj1 = '',
+      String title = ''}) async {
     try {
       String titleJson = "finalizarRecintoElectoral";
 
@@ -635,15 +586,15 @@ class RecintosElectoralesApi {
         "idDgoCreaOpReci": idDgoCreaOpReci,
         "ip": ip,
         "idDgoPerAsigOpe": idDgoPerAsigOpe,
-        "idDgoTipoEje":idDgoTipoEje
-
+        "idDgoTipoEje": idDgoTipoEje
       };
-      String msjMostrar='Usted finalizó con éxito el recinto Electoral!.',titleMostrar='Recintos Electorales';
-      if(msj1!=''){
-        msjMostrar=msj1;
+      String msjMostrar = 'Usted finalizó con éxito el recinto Electoral!.',
+          titleMostrar = 'Recintos Electorales';
+      if (msj1 != '') {
+        msjMostrar = msj1;
       }
-      if(title!=''){
-        titleMostrar=title;
+      if (title != '') {
+        titleMostrar = title;
       }
       //cUANDO SE NECESITA LOS METODOS ESPECIFICO PARA CADA MODULO SE ENVIA POR PARAMETRO EL MODULO CORRESPONDIENTE
 
@@ -656,38 +607,33 @@ class RecintosElectoralesApi {
 
       //se verifica que el servidor envie una respuesta valida
       String msj =
-      await ResponseApi.validateInsert(json: json, titleJson: titleJson);
+          await ResponseApi.validateInsert(json: json, titleJson: titleJson);
 
       print(msj);
 
-
-
-
       if (msj == ConstApi.varTrue) {
-
-        DialogosWidget.alert(context,
-            title: titleMostrar,
-            message: msjMostrar,
-            onTap: (){
-             /* Navigator.pushReplacementNamed(
+        DialogosWidget.alert(context, title: titleMostrar, message: msjMostrar,
+            onTap: () {
+          /* Navigator.pushReplacementNamed(
                   context, AppConfig.pantallaMenuRecintoElectoral);*/
-              UtilidadesUtil.pantallasAbrirNuevaCerrarTodas(context: context,pantalla: AppConfig.pantallaVerificarOperativoRecintoAbierto);
-            });
+          UtilidadesUtil.pantallasAbrirNuevaCerrarTodas(
+              context: context,
+              pantalla: AppConfig.pantallaVerificarOperativoRecintoAbierto);
+        });
         return true;
-      }
-
-      else{
+      } else {
         print(json);
 
-        FinalizarRecintoElectoral finalizarProcesoElectoralModel=    FinalizarProcesoElectoralModel.fromJson(json).finalizarRecintoElectoral;
+        FinalizarRecintoElectoral finalizarProcesoElectoralModel =
+            FinalizarProcesoElectoralModel.fromJson(json)
+                .finalizarRecintoElectoral;
 
         DialogosWidget.alert(context,
             title: titleMostrar,
-            message: "No se pudo finalizar  ${titleMostrar}. La Hora para finalizar es ${finalizarProcesoElectoralModel.datos.horaValidate}. ");
+            message:
+                "No se pudo finalizar  ${titleMostrar}. La Hora para finalizar es ${finalizarProcesoElectoralModel.datos.horaValidate}. ");
         return false;
       }
-
-
     } catch (e) {
       String msj = tag + "No finaliza el operativo ${e.toString()}";
       print(msj);
@@ -697,10 +643,8 @@ class RecintosElectoralesApi {
     }
   }
 
-
-
   Future<List<PersonalRecintoElectoral>>
-  consultarDatosPersonalAsignadoRecintoElectoral({
+      consultarDatosPersonalAsignadoRecintoElectoral({
     @required BuildContext context,
     @required String idDgoCreaOpReci,
   }) async {
@@ -710,8 +654,7 @@ class RecintosElectoralesApi {
       Map<String, String> parametros;
 
       parametros = {
-        ConstApi.varOpc:
-        ConstApi.ConsultarPersonalAsignadoRecintoElectoral,
+        ConstApi.varOpc: ConstApi.ConsultarPersonalAsignadoRecintoElectoral,
         "idDgoCreaOpReci": idDgoCreaOpReci,
       };
 
@@ -725,31 +668,26 @@ class RecintosElectoralesApi {
 
       //se verifica que el servidor envie una respuesta valida
       String msj =
-      ResponseApi.validateConsultas(json: json, titleJson: titleJson);
-
+          ResponseApi.validateConsultas(json: json, titleJson: titleJson);
 
       if (msj == ConstApi.varTrue) {
         String datos = getDatosModelFromString(json, titleJson);
         List<PersonalRecintoElectoral> _datos =
-            personalRecintoElectoralModelFromJson(datos).personalRecintoElectoral;
+            personalRecintoElectoralModelFromJson(datos)
+                .personalRecintoElectoral;
 
         return _datos;
       } else {
         DialogosWidget.alert(context,
-            title: "Personal",
-            message:
-            "No existe personal asignado");
+            title: "Personal", message: "No existe personal asignado");
         return new List();
       }
     } catch (e) {
-      String msj = tag +
-          "${e.toString()}";
+      String msj = tag + "${e.toString()}";
       print(msj);
       DialogosWidget.error(context, message: msj);
 
-      throw new Exception(
-          '[ No consulta los datos del Personal -${msj}]');
+      throw new Exception('[ No consulta los datos del Personal -${msj}]');
     }
   }
-
 }

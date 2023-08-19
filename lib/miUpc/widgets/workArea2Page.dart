@@ -1,4 +1,4 @@
-part of  'miUpcCustomWidgets.dart';
+part of 'miUpcCustomWidgets.dart';
 
 class WorArea2Page extends StatefulWidget {
   final bool peticionServer;
@@ -59,12 +59,6 @@ class _WorArea2PageState extends State<WorArea2Page> {
                 child:
                     widget.contenido != null ? widget.contenido : Container(),
               )),
-              Container(
-                height: responsive.isVertical()
-                    ? responsive.altoP(5)
-                    : responsive.altoP(10),
-                child: bannerInferior(responsive),
-              )
             ],
           ),
           CargandoWidget(mostrar: widget.peticionServer),

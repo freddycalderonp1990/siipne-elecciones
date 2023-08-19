@@ -53,7 +53,7 @@ android {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "ecuador.policianacional.dntic.siipnemovil2"
         minSdkVersion 17
-        versionCode 23
+        versionCode 25
         versionName "1.1.0"
         targetSdkVersion 33
       //  versionCode flutterVersionCode.toInteger()

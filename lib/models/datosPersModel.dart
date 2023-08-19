@@ -29,16 +29,19 @@ class DatosPer {
     this.siglas,
     this.apenom,
     this.poliRegistrado,
+    this.documento
   });
 
   String idGenPersona;
   String siglas;
   String apenom;
+  String documento;
   bool poliRegistrado;
 
   factory DatosPer.fromJson(Map<String, dynamic> json) => DatosPer(
     idGenPersona: json["idGenPersona"] == null ? null : json["idGenPersona"],
     siglas: json["siglas"] == null ? '' : json["siglas"],
+    documento: json["documento"] == null ? '' : json["documento"],
     apenom: json["apenom"] == null ? null : json["apenom"],
     poliRegistrado: json["poliRegistrado"] == null ? null : json["poliRegistrado"],
   );
@@ -46,6 +49,7 @@ class DatosPer {
   Map<String, dynamic> toJson() => {
     "idGenPersona": idGenPersona == null ? null : idGenPersona,
     "siglas": siglas == null ? null : siglas,
+    "documento": documento == null ? null : documento,
     "apenom": apenom == null ? null : apenom,
     "poliRegistrado": poliRegistrado == null ? null : poliRegistrado,
   };

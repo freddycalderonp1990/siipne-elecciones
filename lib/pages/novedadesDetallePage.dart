@@ -2,8 +2,7 @@ part of 'pages.dart';
 
 class NovedadesDetallePage extends StatefulWidget {
   @override
-  _NovedadesDetallePageState createState() =>
-      _NovedadesDetallePageState();
+  _NovedadesDetallePageState createState() => _NovedadesDetallePageState();
 }
 
 class _NovedadesDetallePageState extends State<NovedadesDetallePage> {
@@ -16,13 +15,14 @@ class _NovedadesDetallePageState extends State<NovedadesDetallePage> {
   String encargado;
 
   RecintosElectoralesApi _recintosElectoralesApi = new RecintosElectoralesApi();
-  NovedadesElectoralesApi _novedadesElectoralesApi =new NovedadesElectoralesApi();
+  NovedadesElectoralesApi _novedadesElectoralesApi =
+      new NovedadesElectoralesApi();
 
   List<PersonalRecintoElectoral> _ListPersonalRecintoElectoral = new List();
   List<PersonalRecintoElectoral> _ListPersonalActivo = new List();
   List<PersonalRecintoElectoral> _ListPersonalInactivo = new List();
 
-  List<NovedadesElectoralesDetalle> _ListNovedadesRecinto= new List();
+  List<NovedadesElectoralesDetalle> _ListNovedadesRecinto = new List();
 
   //CONFIGURACIONES
   final anchoContenedor = AppConfig.anchoContenedor;
@@ -31,6 +31,7 @@ class _NovedadesDetallePageState extends State<NovedadesDetallePage> {
 
   @override
   Widget build(BuildContext context) {
+    print("NovedadesDetallePage - elecciones");
     final responsive = ResponsiveUtil(context);
     sizeIcons =
         responsive.isVertical() ? responsive.altoP(3) : responsive.anchoP(5);
@@ -39,14 +40,12 @@ class _NovedadesDetallePageState extends State<NovedadesDetallePage> {
     final separcion = 0.5;
 
     _ConusltarPersonalAsignado();
-    String imgFondo=AppConfig.imgFondoDefault;
-    if(_RecintoProvider.getRecintoAbierto.isRecinto){
-      imgFondo=AppConfig.imgFondoElecciones;
+    String imgFondo = AppConfig.imgFondoDefault;
+    if (_RecintoProvider.getRecintoAbierto.isRecinto) {
+      imgFondo = AppConfig.imgFondoElecciones;
     }
 
-
     return WorkAreaPageWidget(
-
       imgFondo: imgFondo,
       btnAtras: true,
       peticionServer: peticionServer,
@@ -119,7 +118,6 @@ class _NovedadesDetallePageState extends State<NovedadesDetallePage> {
                   detalle: _ListPersonalRecintoElectoral[0].fechaIni,
                   mostrarBorder: true,
                 ),
-
                 TituloDetalleTextWidget(
                   title: "Total Novedades",
                   detalle: (_ListNovedadesRecinto.length).toString(),
@@ -154,7 +152,8 @@ class _NovedadesDetallePageState extends State<NovedadesDetallePage> {
                         shrinkWrap: true,
                         itemCount: _ListNovedadesRecinto.length,
                         itemBuilder: (context, index) {
-                          NovedadesElectoralesDetalle novedades = _ListNovedadesRecinto[index];
+                          NovedadesElectoralesDetalle novedades =
+                              _ListNovedadesRecinto[index];
 
                           return Container(
                               decoration: BoxDecoration(
@@ -168,50 +167,52 @@ class _NovedadesDetallePageState extends State<NovedadesDetallePage> {
                               margin: EdgeInsets.symmetric(
                                   horizontal: 5, vertical: 5),
                               child: SingleChildScrollView(
-                                scrollDirection:Axis.horizontal ,
-
-                                child: Row(children: [
-                                SizedBox(width: responsive.altoP(1),),
-                                Text(
-                                  (index + 1).toString()+".",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontSize: responsive.anchoP(4),
-                                      fontWeight: FontWeight.bold),
-                                ),
-
-                                SizedBox(width: responsive.altoP(1),),
-                                Column(
+                                scrollDirection: Axis.horizontal,
+                                child: Row(
                                   children: [
-                                    TituloDetalleTextWidget(
-                                      title: "Fecha:",
-                                      detalle: novedades.fechaNovedad,
-                                      mostrarBorder: false,
-                                      mostrarLinea: true,
+                                    SizedBox(
+                                      width: responsive.altoP(1),
                                     ),
-                                    TituloDetalleTextWidget(
-                                      title: "Reporta:",
-                                      detalle: novedades.reporta,
-                                      mostrarBorder: false,
-                                      mostrarLinea: true,
+                                    Text(
+                                      (index + 1).toString() + ".",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          fontSize: responsive.anchoP(4),
+                                          fontWeight: FontWeight.bold),
                                     ),
-                                    TituloDetalleTextWidget(
-                                      title: "Tipo:",
-                                      detalle: novedades.tipo,
-                                      mostrarBorder: false,
-                                      mostrarLinea: true,
+                                    SizedBox(
+                                      width: responsive.altoP(1),
                                     ),
-
-
-                                    TituloDetalleTextWidget(
-                                      title: "Novedad:",
-                                      detalle: novedades.novedad,
-                                      mostrarBorder: false,
-                                    ),
-                            
+                                    Column(
+                                      children: [
+                                        TituloDetalleTextWidget(
+                                          title: "Fecha:",
+                                          detalle: novedades.fechaNovedad,
+                                          mostrarBorder: false,
+                                          mostrarLinea: true,
+                                        ),
+                                        TituloDetalleTextWidget(
+                                          title: "Reporta:",
+                                          detalle: novedades.reporta,
+                                          mostrarBorder: false,
+                                          mostrarLinea: true,
+                                        ),
+                                        TituloDetalleTextWidget(
+                                          title: "Tipo:",
+                                          detalle: novedades.tipo,
+                                          mostrarBorder: false,
+                                          mostrarLinea: true,
+                                        ),
+                                        TituloDetalleTextWidget(
+                                          title: "Novedad:",
+                                          detalle: novedades.novedad,
+                                          mostrarBorder: false,
+                                        ),
+                                      ],
+                                    )
                                   ],
-                                )
-                              ],),));
+                                ),
+                              ));
                         })),
               )
             ],
@@ -311,7 +312,6 @@ class _NovedadesDetallePageState extends State<NovedadesDetallePage> {
 
       setState(() {
         peticionServer = false;
-
       });
 
       _ConusltarNovedadesRecinto();
@@ -319,7 +319,6 @@ class _NovedadesDetallePageState extends State<NovedadesDetallePage> {
       print("un error ${e.toString()}");
       setState(() {
         peticionServer = false;
-
       });
     }
   }
@@ -333,17 +332,16 @@ class _NovedadesDetallePageState extends State<NovedadesDetallePage> {
         peticionServer = true;
       });
 
-      String msj='';
-      if(!_RecintoProvider.getRecintoAbierto.isRecinto){
-        msj='';
+      String msj = '';
+      if (!_RecintoProvider.getRecintoAbierto.isRecinto) {
+        msj = '';
       }
 
-      _ListNovedadesRecinto = await _novedadesElectoralesApi
-          .getDetalleNovedadesPorRecinto(
+      _ListNovedadesRecinto =
+          await _novedadesElectoralesApi.getDetalleNovedadesPorRecinto(
         context: context,
         idDgoCreaOpReci: _RecintoProvider.getRecintoAbierto.idDgoCreaOpReci,
       );
-
 
       setState(() {
         peticionServer = false;

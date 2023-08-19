@@ -1,7 +1,5 @@
 part of 'miUpcPages.dart';
 
-
-
 class MiUpcSplashPage extends StatefulWidget {
   @override
   _MiUpcSplashPageState createState() => _MiUpcSplashPageState();
@@ -13,18 +11,16 @@ class _MiUpcSplashPageState extends State<MiUpcSplashPage> {
   Geolocator geolocator = Geolocator();
   final prefs = new MiUpcPreferenciasUsuario();
   int timeSplas = 4;
-  bool dibujar=true;
+  bool dibujar = true;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     vericaServicio();
-    _getLocation();
+    //_getLocation();
 
     verificaTConexion();
-
-
   }
 
   @override
@@ -51,8 +47,6 @@ class _MiUpcSplashPageState extends State<MiUpcSplashPage> {
     );
   }
 
-
-
   _getLocation() async {
     Position position;
     try {
@@ -76,17 +70,16 @@ class _MiUpcSplashPageState extends State<MiUpcSplashPage> {
         print('connected');
         print(result[0].rawAddress);
 
-
-        if (prefs.getidGenPersonaMiUpc() != '0' && prefs.getimeiMiUpc()!='') {
+        if (prefs.getidGenPersonaMiUpc() != '0' && prefs.getimeiMiUpc() != '') {
           existeDatos = true;
         }
-
 
         if (!existeDatos) {
           //SystemChrome.setEnabledSystemUIOverlays([]);
           print("acuerdo");
           Future.delayed(Duration(seconds: 1)).then((_) {
-            Navigator.pushReplacementNamed(context, MiUpcAppConfig.acuerdoConfiPage);
+            Navigator.pushReplacementNamed(
+                context, MiUpcAppConfig.acuerdoConfiPage);
           });
         } else {
           //SystemChrome.setEnabledSystemUIOverlays([]);
@@ -101,11 +94,9 @@ class _MiUpcSplashPageState extends State<MiUpcSplashPage> {
       estadoConex = 'N';
       print('NOOOO connected');
       DialogosWidget.alert(context,
-
-          onTap: (){},
+          onTap: () {},
           message:
               "No Existe Conexión a Internet, asegurese de estar conectado a una red wifi o plan de datos");
-
     }
   }
 

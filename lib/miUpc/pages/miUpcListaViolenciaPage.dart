@@ -64,6 +64,7 @@ var imgMemory=null;
           imgMemory =  PhotoHelper.convertStringToUint8List( listaServicos[ind].imgBase64);
           if(listaServicos[ind].servicio.trim().toUpperCase()!="CUENTALE A PAQUITO".trim().toUpperCase()) {
             return InkWell(
+
               onTap: () =>
                   cargarDatosItems(
                       context,

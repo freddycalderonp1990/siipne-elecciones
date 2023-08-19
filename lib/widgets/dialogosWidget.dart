@@ -18,9 +18,7 @@ class DialogosWidget {
       @required Widget widget}) {
     double radioBorder = 30.0;
 
-    widget= WillPopScope(
-        onWillPop: () async => false,
-        child:widget);
+    widget = WillPopScope(onWillPop: () async => false, child: widget);
     final dialog = Dialog(
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(radioBorder))),
@@ -31,8 +29,6 @@ class DialogosWidget {
         radioBorder: radioBorder,
       ),
     );
-
-
 
     showDialog(
         barrierDismissible: false,
@@ -172,10 +168,13 @@ class DialogosWidget {
   }
 
   static Dialog alert(BuildContext context,
-      {String title = '', String message = '', GestureTapCallback onTap}) {
+      {String msjBtn = "OK",
+      String title = '',
+      String message = '',
+      GestureTapCallback onTap}) {
     List<Widget> botonesWidget = <Widget>[
       BotonesWidget(
-        title: "OK",
+        title: msjBtn,
         iconData: Icons.check,
         onPressed: onTap == null
             ? () {
@@ -186,7 +185,6 @@ class DialogosWidget {
     ];
 
     dialogo(context,
-
         title: title,
         botonesWidget: botonesWidget,
         widget: getDialogoMsj(message));
@@ -226,12 +224,11 @@ class DialogosWidget {
         title: title, botonesWidget: botonesWidget, widget: widget);
   }
 
-
   static Dialog alertPersonalizableSiNo(BuildContext context,
       {String title = '',
-        String message = '',
-        VoidCallback onPress,
-        @required Widget widget}) {
+      String message = '',
+      VoidCallback onPress,
+      @required Widget widget}) {
     final responsive = ResponsiveUtil(context);
 
     List<Widget> botonesWidget = <Widget>[
@@ -345,7 +342,11 @@ class DialogosWidget {
   }
 
   static Dialog dialogoDatosVictimaVisitar(BuildContext context,
-      {VoidCallback onTap, String nombres, String apellidos,String direccion,List<String> medidasProteccion }) {
+      {VoidCallback onTap,
+      String nombres,
+      String apellidos,
+      String direccion,
+      List<String> medidasProteccion}) {
     final responsive = ResponsiveUtil(context);
 
     List<Widget> botonesWidget = <Widget>[
@@ -369,19 +370,19 @@ class DialogosWidget {
     ];
 
     //Dibujamos las medidas de proteccion
-    List<Widget> medidas=new List();
-    for(int i=0; i<medidasProteccion.length;i++){
-      medidas.add( DetalleTextWidget(detalle: medidasProteccion[i],));
+    List<Widget> medidas = new List();
+    for (int i = 0; i < medidasProteccion.length; i++) {
+      medidas.add(DetalleTextWidget(
+        detalle: medidasProteccion[i],
+      ));
     }
-
 
     Widget wg = Column(
       children: [
         TituloDetalleTextWidget(
           context: context,
           title: "Nombres:",
-          detalle:
-             nombres,
+          detalle: nombres,
         ),
         TituloDetalleTextWidget(
           context: context,
@@ -393,8 +394,6 @@ class DialogosWidget {
           title: "Dirección:",
           detalle: direccion,
         ),
-
-
         Container(
             padding: EdgeInsets.all(5),
             margin: EdgeInsets.only(bottom: 5),
@@ -404,12 +403,14 @@ class DialogosWidget {
                 boxShadow: [
                   BoxShadow(color: AppConfig.colorBordecajas, blurRadius: 1)
                 ]),
-            child: Column(children: [
-              TituloTextWidget(title: "Medidas de Protección"),
-              Column(
-              children: medidas,
-            )],))
-
+            child: Column(
+              children: [
+                TituloTextWidget(title: "Medidas de Protección"),
+                Column(
+                  children: medidas,
+                )
+              ],
+            ))
       ],
     );
     dialogo(context,
@@ -468,10 +469,10 @@ class DesingDialogo extends StatelessWidget {
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[widget],
-                ),),
-
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[widget],
+                  ),
+                ),
                 SizedBox(height: responsive.anchoP(3)),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,

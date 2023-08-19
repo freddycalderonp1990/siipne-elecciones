@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:siipnemovil2/routes.dart';
 import 'package:siipnemovil2/sharePreferences/preferenciasSelectApp.dart';
 
-
 import 'appConfig.dart';
 import 'appConfig.dart';
 import 'bloc/mapa/mapa_bloc.dart';
@@ -55,34 +54,32 @@ class MyApp extends StatelessWidget {
             BlocProvider(create: (_) => MapaBloc()),
           ],
           child: MaterialApp(
-            color: Colors.red,
-            title: AppConfig.nameApp,
-            debugShowCheckedModeBanner: false,
-            theme: ThemeData(
-              primarySwatch: Colors.blue,
-            ),
-            initialRoute:getInitialRoute(),
-            //cambia el idoama a español
-            localizationsDelegates: [GlobalMaterialLocalizations.delegate],
-            supportedLocales: [
-              const Locale("es"),
-            ],
-            routes: Routes.getRoutes(context)
-          ),
+              color: Colors.red,
+              title: AppConfig.nameApp,
+              debugShowCheckedModeBanner: false,
+              theme: ThemeData(
+                primarySwatch: Colors.blue,
+              ),
+              initialRoute: getInitialRoute(),
+              //cambia el idoama a español
+              localizationsDelegates: [GlobalMaterialLocalizations.delegate],
+              supportedLocales: [
+                const Locale("es"),
+              ],
+              routes: Routes.getRoutes(context)),
         ));
   }
 
-  String getInitialRoute(){
+  String getInitialRoute() {
     String page;
-    if(UtilidadesUtil.plataformaIsAndroid()){
-      page= AppConfig.pantallaInicioRapido;
+    if (UtilidadesUtil.plataformaIsAndroid()) {
+      page = AppConfig.pantallaInicioRapido;
+    } else {
+      page = prefsSelectApp.selecSiipne()
+          ? AppConfig.pantallaInicioRapido
+          : AppConfig.pantallaBienvenida;
     }
-    else {
-      page= prefsSelectApp.selecSiipne() ? AppConfig.pantallaInicioRapido : AppConfig
-          .pantallaBienvenida;
-    }
-    
-    return page;
 
+    return page;
   }
 }

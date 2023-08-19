@@ -2,10 +2,12 @@ part of '../pages.dart';
 
 class selectProcesosOperativosPage extends StatefulWidget {
   @override
-  _selectProcesosOperativosPageState createState() => _selectProcesosOperativosPageState();
+  _selectProcesosOperativosPageState createState() =>
+      _selectProcesosOperativosPageState();
 }
 
-class _selectProcesosOperativosPageState extends State<selectProcesosOperativosPage> {
+class _selectProcesosOperativosPageState
+    extends State<selectProcesosOperativosPage> {
   var peticionServer = false;
   UserProvider _UserProvider;
   ProcesoOperativoProvider _ProcesoOperativoProvider;
@@ -27,6 +29,7 @@ class _selectProcesosOperativosPageState extends State<selectProcesosOperativosP
     super.initState();
 
     UtilidadesUtil.getTheme();
+    print("selectProcesosOperativosPage - elecciones");
   }
 
   @override
@@ -47,7 +50,6 @@ class _selectProcesosOperativosPageState extends State<selectProcesosOperativosP
     return WorkAreaPageWidget(
       mostrarVersion: false,
       btnAtras: true,
-
       peticionServer: peticionServer,
       title: VariablesUtil.OPERATIVOS,
       sizeTittle: 7,
@@ -93,7 +95,6 @@ class _selectProcesosOperativosPageState extends State<selectProcesosOperativosP
               SizedBox(
                 height: responsive.altoP(4),
               ),
-
             ],
           ),
         ),
@@ -119,11 +120,9 @@ class _selectProcesosOperativosPageState extends State<selectProcesosOperativosP
         datos.add(listProcesosOperativos[i].descProcElecc);
       }
       return datos;
-    }
-    catch(e){
+    } catch (e) {
       return List();
     }
-
   }
 
   int getIdProcesosOperativos(String descProcElecc) {
@@ -139,16 +138,13 @@ class _selectProcesosOperativosPageState extends State<selectProcesosOperativosP
         }
       }
       return id;
-    }
-    catch(e){
+    } catch (e) {
       return 0;
     }
   }
 
   Widget getComboProcesosRecintos() {
-
     List<String> datos = getDatosProcesosOperativos(_listProcesosOperativo);
-
 
     return ContenedorDesingWidget(
         anchoPorce: anchoContenedor,
@@ -157,7 +153,6 @@ class _selectProcesosOperativosPageState extends State<selectProcesosOperativosP
             child: Container(
                 padding: EdgeInsets.symmetric(horizontal: paddingContenido),
                 child: ComboConBusqueda(
-
                   title: VariablesUtil.Operativos,
                   searchHint: 'Seleccione el ' + VariablesUtil.Operativos,
                   datos: datos,
@@ -194,7 +189,7 @@ class _selectProcesosOperativosPageState extends State<selectProcesosOperativosP
         peticionServer = false;
         cargaInicial = false;
       });
-      if(_listProcesosOperativo!=null) {
+      if (_listProcesosOperativo != null) {
         if (_listProcesosOperativo.length == 1) {
           procesoOperativo = _listProcesosOperativo[0].descProcElecc;
           idProcesoOperativo = getIdProcesosOperativos(procesoOperativo);
@@ -202,19 +197,17 @@ class _selectProcesosOperativosPageState extends State<selectProcesosOperativosP
           _ProcesoOperativoProvider.setProcesoOperativo(
               _listProcesosOperativo[0]);
 
-        //  Navigator.of(context).pop();
+          //  Navigator.of(context).pop();
 
           Navigator.pushNamed(context, AppConfig.pantallaTipoEjes);
           /*UtilidadesUtil.pantallasAbrirNuevaCerrarTodas(
               context: context, pantalla: AppConfig.pantallaTipoEjes);*/
         }
       }
-
-
     } catch (e) {
       setState(() {
         peticionServer = false;
-        cargaInicial=false;
+        cargaInicial = false;
       });
     }
   }
@@ -237,15 +230,11 @@ class _selectProcesosOperativosPageState extends State<selectProcesosOperativosP
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) =>
-                                VerificarGpsPage(pantalla: SelectTipoServiciosEjesPage())));
-
+                            builder: (context) => VerificarGpsPage(
+                                pantalla: SelectTipoServiciosEjesPage())));
                   });
                 }),
           )
         : Container();
   }
-
-
-
 }

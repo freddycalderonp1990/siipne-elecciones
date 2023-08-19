@@ -29,7 +29,8 @@ class _MiUpcMyDrawerWidgetState extends State<MiUpcMyDrawerWidget> {
 
   final prefs = new MiUpcPreferenciasUsuario();
 
-  String version='';
+  String version = '';
+  String nombre = "";
 
   @override
   void initState() {
@@ -38,10 +39,12 @@ class _MiUpcMyDrawerWidgetState extends State<MiUpcMyDrawerWidget> {
     _loadVersion();
   }
 
-  _loadVersion() async{
-    String _version=await UtilidadesUtil.getVersionCodeNameApp();
+  _loadVersion() async {
+    String _version = await UtilidadesUtil.getVersionCodeNameApp();
     setState(() {
-      version=_version;
+      version = _version;
+
+      nombre = prefs.getnombresMiUpc();
     });
   }
 
@@ -49,8 +52,6 @@ class _MiUpcMyDrawerWidgetState extends State<MiUpcMyDrawerWidget> {
   Widget build(BuildContext context) {
     return _buildDrawer(context);
   }
-
-
 
   _buildDrawer(BuildContext context) {
     final String image = 'assets/miUpc/img/escpolicia.png';
@@ -74,14 +75,12 @@ class _MiUpcMyDrawerWidgetState extends State<MiUpcMyDrawerWidget> {
             /// ---------------------------
             /// Building scrolling  content for drawer .
             /// ---------------------------
-            child:
-            SingleChildScrollView(
+            child: SingleChildScrollView(
               child: Column(
                 children: <Widget>[
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-
                       Container(
                         alignment: Alignment.centerRight,
                         child: IconButton(
@@ -90,13 +89,14 @@ class _MiUpcMyDrawerWidgetState extends State<MiUpcMyDrawerWidget> {
                             color: Colors.red,
                           ),
                           onPressed: () {
-                             prefs.clearDatosUser();
+                            prefs.clearDatosUser();
                             //Navigator.pushReplacementNamed(context, AppConfig.acuerdoConfiPage);
-                           // exit(0);
+                            // exit(0);
                           },
                         ),
                       ),
-                    ],),
+                    ],
+                  ),
 
                   /// ---------------------------
                   /// Building header for drawer .
@@ -136,62 +136,55 @@ class _MiUpcMyDrawerWidgetState extends State<MiUpcMyDrawerWidget> {
                   /// ---------------------------
                   SizedBox(height: 20.0),
                   _buildDivider(),
-                  _buildRow(MiUpcAppConfig.imgPaquitoCovid, "Perfil", onTap: () {
+                  _buildRow(MiUpcAppConfig.imgPaquitoCovid,
+                      nombre.length > 4 ? "Perfil" : "Registrate", onTap: () {
                     widget.myKey.currentState.openEndDrawer();
-                    Navigator.of(context).pushNamed(MiUpcAppConfig.ModificarDatosPage);
+
+                    nombre.length > 4 ? Navigator.of(context)
+                        .pushNamed(MiUpcAppConfig.ModificarDatosPage) :    UtilidadesUtil.pantallasAbrirNuevaCerrarTodas(
+                        context: context, pantalla: MiUpcAppConfig.splashPage);
+
+
                   }),
                   _buildDivider(),
 
-
-
-
-
-
-
-
-                  _buildRow(
-                      MiUpcAppConfig.imgRegistrardesaparecido, "Pantalla Inicio",
-
-
-                      showBadge: true,onTap: () {
-                    final prefsSelectApp=new PreferenciasSelectApp();
+                  _buildRow(MiUpcAppConfig.imgRegistrardesaparecido,
+                      "Pantalla Inicio",
+                      showBadge: true, onTap: () {
+                    final prefsSelectApp = new PreferenciasSelectApp();
                     prefsSelectApp.setSelectSiipne(false);
                     prefsSelectApp.setSelecMiUpc(false);
 
                     //oculta el drawer
                     widget.myKey.currentState.openEndDrawer();
 
-
-                    UtilidadesUtil.pantallasAbrirNuevaCerrarTodas(context: context,pantalla: AppConfig.pantallaBienvenida);
-
+                    UtilidadesUtil.pantallasAbrirNuevaCerrarTodas(
+                        context: context,
+                        pantalla: AppConfig.pantallaBienvenida);
                   }),
                   _buildDivider(),
                   _buildRow(
                       'assets/miUpc/img/upedificio.png', "Compartir Aplicación",
-                      showBadge: true,
-                      numNotificaciones:0 , onTap: () {
+                      showBadge: true, numNotificaciones: 0, onTap: () {
                     //oculta el drawer
-                    Share.share("https://play.google.com/store/apps/details?id=mmeo.system.pne&hl=es");
+                    Share.share(
+                        "https://play.google.com/store/apps/details?id=mmeo.system.pne&hl=es");
                     widget.myKey.currentState.openEndDrawer();
-
                   }),
                   _buildDivider(),
-                  Text('Versión: '+version +' '+MiUpcUrlApi.ambiente,style: TextStyle(fontWeight: FontWeight.bold),)
+                  Text(
+                    'Versión: ' + version + ' ' + MiUpcUrlApi.ambiente,
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  )
                 ],
               ),
-
-
-
-
-            )
-
-            ,
+            ),
           ),
         ),
       ),
     );
   }
- //https://play.google.com/store/apps/details?id=mmeo.system.pne&hl=es
+  //https://play.google.com/store/apps/details?id=mmeo.system.pne&hl=es
   /// ---------------------------
   /// Building divider for drawer .
   /// ---------------------------
@@ -208,8 +201,8 @@ class _MiUpcMyDrawerWidgetState extends State<MiUpcMyDrawerWidget> {
 
   Widget _buildRow(String image, String title,
       {bool showBadge = false,
-        int numNotificaciones = 0,
-        GestureTapCallback onTap}) {
+      int numNotificaciones = 0,
+      GestureTapCallback onTap}) {
     final TextStyle tStyle = TextStyle(color: active, fontSize: 15.0);
     return InkWell(
       onTap: onTap,
@@ -230,7 +223,6 @@ class _MiUpcMyDrawerWidgetState extends State<MiUpcMyDrawerWidget> {
                 style: tStyle,
               ),
             ),
-
 
             // se dibuja las notificaciones
             if (numNotificaciones > 0)

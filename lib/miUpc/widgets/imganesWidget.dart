@@ -26,7 +26,7 @@ class _ImagenesWidgetState extends State<ImagenesWidget> {
 
           var wgImg=Image.asset('assets/img/img_no_disponible.png');
           if(!widget.isImg){
-            wgImg=Image.asset('assets/img/video_no_diponible.png');
+            wgImg=Image.asset('assets/img/img_no_disponible.png');
           }
           return Container(
 
@@ -47,7 +47,7 @@ class _ImagenesWidgetState extends State<ImagenesWidget> {
 
     String Img='assets/img/img_no_disponible.png';
     if(!widget.isImg){
-      Img='assets/img/video_no_diponible.png';
+      Img='assets/img/img_no_disponible.png';
     }
 
     ImageProvider img = AssetImage(Img);

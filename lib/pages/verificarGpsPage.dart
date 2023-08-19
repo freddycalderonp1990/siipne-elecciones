@@ -4,13 +4,19 @@ part of 'pages.dart';
 // se debe enviar en pantalla, la pantalla que queremos mostrar cuando _todo esta correcto
 //si los permisos y la ubicacion del GPS se encuentra activa se redirecciona de manera automatica a la pantala especificada
 
-
 class VerificarGpsPage extends StatefulWidget {
   final Widget pantalla;
   final bool cerrarTodasPantallas;
+  final String msj;
+  final bool isElecciones;
 
-
-  const VerificarGpsPage({Key key, @required this.pantalla, this.cerrarTodasPantallas=false}) : super(key: key);
+  const VerificarGpsPage(
+      {Key key,
+      @required this.pantalla,
+      this.cerrarTodasPantallas = false,
+      this.isElecciones = true,
+      this.msj = ""})
+      : super(key: key);
   @override
   _VerificarGpsPageState createState() => _VerificarGpsPageState();
 }
@@ -18,7 +24,12 @@ class VerificarGpsPage extends StatefulWidget {
 class _VerificarGpsPageState extends State<VerificarGpsPage> {
   @override
   Widget build(BuildContext context) {
-    return  myGps(pantalla:widget.pantalla,cerrarTodasPantallas: widget.cerrarTodasPantallas,);
-
+    print("VerificarGpsPage - elecciones");
+    return myGps(
+      isElecciones: widget.isElecciones,
+      msj: widget.msj,
+      pantalla: widget.pantalla,
+      cerrarTodasPantallas: widget.cerrarTodasPantallas,
+    );
   }
 }

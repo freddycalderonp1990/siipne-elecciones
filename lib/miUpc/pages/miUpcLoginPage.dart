@@ -3,19 +3,15 @@ part of 'miUpcPages.dart';
 class MiUpcLoginPage extends StatefulWidget {
   static bool peticionServer;
 
-
   @override
   _MiUpcLoginPageState createState() => _MiUpcLoginPageState();
 }
 
-
-
 class _MiUpcLoginPageState extends State<MiUpcLoginPage> {
   final prefs = new MiUpcPreferenciasUsuario();
   bool cedulaLista = false;
-  String _ip ;
-  String imeiCell='';
-
+  String _ip;
+  String imeiCell = '';
 
   bool cargarDatos = true;
   final myControllerCedula = TextEditingController();
@@ -48,7 +44,6 @@ class _MiUpcLoginPageState extends State<MiUpcLoginPage> {
   StreamSubscription<ConnectivityResult> _connectivitySubscription;
   static final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
 
-
   final formKeyNacional = GlobalKey<FormState>();
   final formKeyExtra = GlobalKey<FormState>();
 
@@ -73,31 +68,29 @@ class _MiUpcLoginPageState extends State<MiUpcLoginPage> {
     // TODO: implement initState
     super.initState();
     _controller = TextEditingController();
-    getTelephonyInfo();
-    getImei();
-    _getLocation();
-    initConnectivity();
-    verificaTConexion();
-    initPlatformDevice();
+    //getTelephonyInfo();
+    //getImei();
+    //_getLocation();
+    //initConnectivity();
+    //verificaTConexion();
+    //initPlatformDevice();
     getIp();
 
-    _connectivitySubscription =
-        _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
+    /*_connectivitySubscription =
+        _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);*/
   }
 
   Future<void> getImei() async {
     String platformImei;
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
-      platformImei =
-      await UtilidadesUtil.getMac();
+      platformImei = await UtilidadesUtil.getMac();
     } on Exception catch (_) {
       platformImei = 'Failed to get platform version.';
     }
     if (!mounted) return;
     setState(() {
-      imeiCell= platformImei;
-
+      imeiCell = platformImei;
     });
   }
 
@@ -217,6 +210,36 @@ class _MiUpcLoginPageState extends State<MiUpcLoginPage> {
               ],
             ),
             CargandoWidget(mostrar: peticionServer),
+            Positioned(
+                left: responsive.isVertical()
+                    ? responsive.altoP(1)
+                    : responsive.anchoP(1),
+                top: responsive.isVertical()
+                    ? responsive.altoP(1)
+                    : responsive.anchoP(2),
+                child: SafeArea(
+                  child: CupertinoButton(
+                    minSize: responsive.isVertical()
+                        ? responsive.altoP(5)
+                        : responsive.anchoP(5),
+                    padding: EdgeInsets.all(3),
+                    borderRadius: BorderRadius.circular(30),
+                    color: Colors.blue,
+                    onPressed: () {
+                      UtilidadesUtil.pantallasAbrirNuevaCerrarTodas(
+                          context: context,
+                          pantalla: AppConfig.pantallaBienvenida);
+                    },
+                    //volver atras
+                    child: Icon(
+                      Icons.arrow_back,
+                      color: Colors.black,
+                      size: responsive.isVertical()
+                          ? responsive.altoP(3)
+                          : responsive.anchoP(3),
+                    ),
+                  ),
+                )),
           ],
         ),
       ),
@@ -226,11 +249,15 @@ class _MiUpcLoginPageState extends State<MiUpcLoginPage> {
   void ingresar(String nom, String ced, String cel) async {
     //Navigator.of(context).pop();
     MiUpcDialogosWidget.alertaRegistro(
-        context: context, nombre: nom, cedula: ced, celular: cel,onPressed:() {
-      Navigator.of(context).pop();
-      Navigator.pushReplacementNamed(context, MiUpcAppConfig.menuPrincipalPage);
-
-    });
+        context: context,
+        nombre: nom,
+        cedula: ced,
+        celular: cel,
+        onPressed: () {
+          Navigator.of(context).pop();
+          Navigator.pushReplacementNamed(
+              context, MiUpcAppConfig.menuPrincipalPage);
+        });
   }
 
   Widget getContenidonacional(ResponsiveUtil responsive) {
@@ -359,9 +386,7 @@ class _MiUpcLoginPageState extends State<MiUpcLoginPage> {
       padding: EdgeInsets.symmetric(vertical: 25.0),
       width: double.infinity,
       child: TextButton(
-
         onPressed: () => registroUsu(context),
-
         child: visibilityTag
             ? Text(
                 'DONE',
@@ -393,18 +418,17 @@ class _MiUpcLoginPageState extends State<MiUpcLoginPage> {
       TextEditingController controller,
       FormFieldValidator<String> validator,
       TextInputType keyboardType,
-        String labelText,
-        String hintText,
-        IconData iconData
-      }) {
-    Widget wg= Container(
+      String labelText,
+      String hintText,
+      IconData iconData}) {
+    Widget wg = Container(
       height: 68.0,
       child: TextFormField(
         onChanged: onChanged,
         controller: controller,
         validator: validator,
-        keyboardType:keyboardType,
-        decoration:  InputDecoration(
+        keyboardType: keyboardType,
+        decoration: InputDecoration(
             icon: Icon(iconData, color: Colors.blue),
             border: OutlineInputBorder(),
             labelText: labelText,
@@ -414,16 +438,16 @@ class _MiUpcLoginPageState extends State<MiUpcLoginPage> {
       ),
     );
 
-    if(maxLength>0){
-      wg=Container(
+    if (maxLength > 0) {
+      wg = Container(
         height: 68.0,
         child: TextFormField(
           onChanged: onChanged,
           maxLength: maxLength,
           controller: controller,
           validator: validator,
-          keyboardType:keyboardType,
-          decoration:  InputDecoration(
+          keyboardType: keyboardType,
+          decoration: InputDecoration(
               icon: Icon(iconData, color: Colors.blue),
               border: OutlineInputBorder(),
               labelText: labelText,
@@ -435,13 +459,9 @@ class _MiUpcLoginPageState extends State<MiUpcLoginPage> {
     }
 
     return widget;
-
-
   }
 
   Widget _TxtCedula(ResponsiveUtil res) {
-
-
     return Container(
       height: 68.0,
       child: TextFormField(
@@ -476,9 +496,6 @@ class _MiUpcLoginPageState extends State<MiUpcLoginPage> {
         maxLines: 1,
       ),
     );
-
-
-
   }
 
   Widget _TxtPrimerNombre(ResponsiveUtil res) {
@@ -642,7 +659,7 @@ class _MiUpcLoginPageState extends State<MiUpcLoginPage> {
   }
 
   Map<String, String> setDatos() => {
-    MiUpcConstApi.varOpn: MiUpcConstApi.REGISTRARUSERMIUPC,
+        MiUpcConstApi.varOpn: MiUpcConstApi.REGISTRARUSERMIUPC,
         MiUpcConstApi.varOpcion: "detalle",
         "tipoUser": tipoUsuario,
         "nombreUser": nombresExt,
@@ -687,6 +704,8 @@ class _MiUpcLoginPageState extends State<MiUpcLoginPage> {
     } catch (e) {}
   }
 
+  //
+
   registroUsu(BuildContext ctx) async {
     final isValid = formKeyNacional.currentState.validate();
 
@@ -700,7 +719,8 @@ class _MiUpcLoginPageState extends State<MiUpcLoginPage> {
         setState(() {
           peticionServer = true;
         });
-        MiUpcRegistroUsuarioApi registroUsuarioApi = new MiUpcRegistroUsuarioApi();
+        MiUpcRegistroUsuarioApi registroUsuarioApi =
+            new MiUpcRegistroUsuarioApi();
         RegistroUsuarioModel registroUsuarioModel;
 
         Map<String, String> datosJson = setDatos();
@@ -722,11 +742,14 @@ class _MiUpcLoginPageState extends State<MiUpcLoginPage> {
               String idGenPersona = datosRegistro[3].toString();
 
               if (nombres == null) nombres = nombresExt;
+              print("aaaaaaa");
+
+              print(nombres);
 
               // se prosede a guardar los datos del usuario en las preferencias
               prefs.setDatosUser(
-                  idGenPersonaMiUpc:idGenPersona ,
-                  nombreUser: nombresExt,
+                  idGenPersonaMiUpc: idGenPersona,
+                  nombreUser: nombres,
                   cedulaMiUpcV: controllerCedula.text,
                   emailMiUpcV: controllerCorreo.text,
                   nombresMiUpcV: nombres,
@@ -734,6 +757,10 @@ class _MiUpcLoginPageState extends State<MiUpcLoginPage> {
                   idUsuarioMiUpc: id,
                   imeiMiUpc: imeiCell,
                   isnacionalMiUpc: selectNacionalidad == 1 ? true : false);
+
+              if (prefs.getnombreUsuarioMiUpc().length > 4) {
+                print("ssisisisisisi");
+              }
 
               ingresar(nombres, controllerCedula.text, controllerContacto.text);
             });
@@ -782,26 +809,13 @@ class _MiUpcLoginPageState extends State<MiUpcLoginPage> {
   }
 
   verificaTConexion() async {
-    try {
-      final result = await InternetAddress.lookup('google.com');
-      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-        estadoConex = 'S';
-        print('connected');
-      }
-    } on SocketException catch (_) {
-      MiUpcDialogosWidget.alertasV(
-          context: context,
-          txt:
-              "No Existe Conexión a Internet, asegurese de estar conectado a una red wifi o plan de datos");
-      estadoConex = 'N';
-      // Navigator.of(context).pop();
-    }
+    estadoConex = 'S';
   }
 
   Future<void> getTelephonyInfo() async {
     TelephonyInfo info;
     try {
-      info = await FltTelephonyInfo.info;
+      //info = await FltTelephonyInfo.info;
     } catch (e) {}
 
     if (!mounted) return;
@@ -924,8 +938,8 @@ class _MiUpcLoginPageState extends State<MiUpcLoginPage> {
       print('Error: Failed to get platform version.');
     }
   }
-  Future<void>  getIp() async{
 
+  Future<void> getIp() async {
     _ip = await UtilidadesUtil.getIp();
   }
 

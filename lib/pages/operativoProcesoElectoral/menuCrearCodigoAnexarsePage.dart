@@ -35,6 +35,7 @@ class _MenuCrearCodigoPageState extends State<MenuCrearCodigoPage> {
     super.initState();
     UtilidadesUtil
         .getTheme(); //cambia el color de texto de barra superios del telefono
+    print("MenuCrearCodigoPage - elecciones");
   }
 
   @override
@@ -43,7 +44,7 @@ class _MenuCrearCodigoPageState extends State<MenuCrearCodigoPage> {
     //Variable para obtener el tamaño de la pantalla
 
     final responsive = ResponsiveUtil(context);
-     sizeTxt = responsive.anchoP(AppConfig.tamTexto + 2.0);
+    sizeTxt = responsive.anchoP(AppConfig.tamTexto + 2.0);
 
     _UserProvider = UserProvider.of(context);
     _RecintoProvider = RecintoAbiertoProvider.of(context);
@@ -57,7 +58,7 @@ class _MenuCrearCodigoPageState extends State<MenuCrearCodigoPage> {
       peticionServer: peticionServer,
       title: "MENÚ PRINCIPAL",
       imgPerfil: _UserProvider.getUser.foto,
-            contenido: <Widget>[
+      contenido: <Widget>[
         Container(
           padding: EdgeInsets.all(5),
           child: Column(
@@ -123,7 +124,7 @@ class _MenuCrearCodigoPageState extends State<MenuCrearCodigoPage> {
                   context,
                   MaterialPageRoute(
                       builder: (context) => VerificarGpsPage(
-                          pantalla: selectProcesosOperativosPage())));
+                          msj: "", pantalla: selectProcesosOperativosPage())));
             }),
         SizedBox(
           height: responsive.altoP(separacionBtnMenu),
@@ -132,8 +133,6 @@ class _MenuCrearCodigoPageState extends State<MenuCrearCodigoPage> {
             img: AppConfig.icon_registrarse_rec_elect,
             titlte: VariablesUtil.ANEXARSE,
             onTap: () {
-
-
               Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -152,20 +151,15 @@ class _MenuCrearCodigoPageState extends State<MenuCrearCodigoPage> {
   }
 
   Widget _getConfig(ResponsiveUtil responsive) {
-
-
-
-    if(prefs.getUser().toUpperCase()!="CPFN1206762401"){
+    if (prefs.getUser().toUpperCase() != "CPFN1206762401") {
       return Container();
     }
-
-
 
     return BtnMenuWidget(
         img: AppConfig.icon_clave,
         titlte: "CONFIGURACIONES",
         onTap: () {
-         Navigator.pushNamed(context, AppConfig.pantallaConfigApp);
+          Navigator.pushNamed(context, AppConfig.pantallaConfigApp);
         });
   }
 }

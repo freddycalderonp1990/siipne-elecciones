@@ -6,104 +6,119 @@ class InicioRapidoPage extends StatefulWidget {
 }
 
 class _InicioRapidoPageState extends State<InicioRapidoPage> {
-
-
-  var peticionServer = false, validateFoto=true, tieneFoto=false;
+  var peticionServer = false, validateFoto = true, tieneFoto = false;
   UserProvider _UserProvider;
 
   final prefs = new PreferenciasUsuario();
-  final prefsSelectApp=new PreferenciasSelectApp();
+  final prefsSelectApp = new PreferenciasSelectApp();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
+    print("InicioRapidoPage - elecciones");
     UtilidadesUtil.getTheme();
   }
 
   @override
   Widget build(BuildContext context) {
-
     final responsive = ResponsiveUtil(context);
 
-
     _UserProvider = UserProvider.of(context);
-
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _validateTieneFoto(context);
     });
-    Widget wg=WorkAreaPageWidget(
-
-
+    Widget wg = WorkAreaPageWidget(
       mostrarVersion: true,
-
       imgFondo: AppConfig.imgFondoDefault,
       peticionServer: peticionServer,
       title: VariablesUtil.POLICIANACIONAL,
       sizeTittle: 7,
-      contenido: <Widget>[
-        tieneFoto? getContenido(responsive):Container()
-      ],
+      contenido: <Widget>[tieneFoto ? getContenido(responsive) : Container()],
     );
 
-    return Stack(children: [
-      wg,
-
-
-    UtilidadesUtil.plataformaIsAndroid()?Container():   Container(
-
-          child: Stack(children: [
-            Positioned(
-                left:responsive.isVertical()? responsive.altoP(1):responsive.anchoP(1),
-                top: responsive.isVertical()? responsive.altoP(1):responsive.anchoP(2),
-                child:  SafeArea(
-                  child: CupertinoButton(
-                    minSize: responsive.isVertical()?responsive.altoP(5):responsive.anchoP(5),
-                    padding: EdgeInsets.all(3),
-                    borderRadius: BorderRadius.circular(30),
-                    color: Colors.black26,
-                    onPressed: (){
-                      prefsSelectApp.setSelectSiipne(false);
-                      prefsSelectApp.setSelecMiUpc(false);
-                      UtilidadesUtil.pantallasAbrirNuevaCerrarTodas(
-                          context: context, pantalla: AppConfig.pantallaBienvenida);
-                    },//volver atras
-                    child: Icon(Icons.arrow_back, color: Colors.white,size:responsive.isVertical()? responsive.altoP(3):responsive.anchoP(3),),
-                  ),
-                )
-            )
-          ],))
-    ],);
+    return Stack(
+      children: [
+        wg,
+        UtilidadesUtil.plataformaIsAndroid()
+            ? Container()
+            : Container(
+                child: Stack(
+                children: [
+                  Positioned(
+                      left: responsive.isVertical()
+                          ? responsive.altoP(1)
+                          : responsive.anchoP(1),
+                      top: responsive.isVertical()
+                          ? responsive.altoP(1)
+                          : responsive.anchoP(2),
+                      child: SafeArea(
+                        child: CupertinoButton(
+                          minSize: responsive.isVertical()
+                              ? responsive.altoP(5)
+                              : responsive.anchoP(5),
+                          padding: EdgeInsets.all(3),
+                          borderRadius: BorderRadius.circular(30),
+                          color: Colors.black26,
+                          onPressed: () {
+                            prefsSelectApp.setSelectSiipne(false);
+                            prefsSelectApp.setSelecMiUpc(false);
+                            UtilidadesUtil.pantallasAbrirNuevaCerrarTodas(
+                                context: context,
+                                pantalla: AppConfig.pantallaBienvenida);
+                          }, //volver atras
+                          child: Icon(
+                            Icons.arrow_back,
+                            color: Colors.white,
+                            size: responsive.isVertical()
+                                ? responsive.altoP(3)
+                                : responsive.anchoP(3),
+                          ),
+                        ),
+                      ))
+                ],
+              ))
+      ],
+    );
   }
-  Widget getContenido(ResponsiveUtil responsive ){
-    return Column(children: [
-      imgPerfilRedonda(size: 35,img: prefs.getFoto(),),
-      SizedBox(height: responsive.altoP(2),),
-      Container(
+
+  Widget getContenido(ResponsiveUtil responsive) {
+    return Column(
+      children: [
+        imgPerfilRedonda(
+          size: 35,
+          img: prefs.getFoto(),
+        ),
+        SizedBox(
+          height: responsive.altoP(2),
+        ),
+        Container(
           decoration: BoxDecoration(
-              borderRadius:
-              BorderRadius.circular(AppConfig.radioBordecajas),
+              borderRadius: BorderRadius.circular(AppConfig.radioBordecajas),
               boxShadow: [
                 BoxShadow(
-                    color: Colors.blueAccent.withOpacity(0.9),
-                    blurRadius: 10)
+                    color: Colors.blueAccent.withOpacity(0.9), blurRadius: 10)
               ]),
-          child:   Text(
-            prefs.getNombre() ,
+          child: Text(
+            prefs.getNombre(),
             textAlign: TextAlign.center,
             style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
                 fontSize: responsive.anchoP(5)),
-          ),),
-
-      SizedBox(height: responsive.altoP(2),),
-      wgHuella(responsive),
-      SizedBox(height: responsive.altoP(1),),
-      wgOtroUsuario(responsive)
-    ],);
+          ),
+        ),
+        SizedBox(
+          height: responsive.altoP(2),
+        ),
+        wgHuella(responsive),
+        SizedBox(
+          height: responsive.altoP(1),
+        ),
+        wgOtroUsuario(responsive)
+      ],
+    );
   }
 
   Widget wgHuella(ResponsiveUtil responsive) {
@@ -112,20 +127,17 @@ class _InicioRapidoPageState extends State<InicioRapidoPage> {
       verificaCredecniales = true;
     }
 
-    Widget wg =
-         desingBtn(responsive,
+    Widget wg = desingBtn(responsive,
         title: "INGRESO CON HUELLA",
         img: AppConfig.icon_huella, onTap: () async {
-
-          bool result = await BiometricUtil.biometrico();
-          if (result) {
-            _EventoLogin(
-                user: prefs.getUser(),
-                pass: prefs.getPass(),
-                );
-          }
-        })
-        ;
+      bool result = await BiometricUtil.biometrico();
+      if (result) {
+        _EventoLogin(
+          user: prefs.getUser(),
+          pass: prefs.getPass(),
+        );
+      }
+    });
 
     return wg;
   }
@@ -136,26 +148,20 @@ class _InicioRapidoPageState extends State<InicioRapidoPage> {
       verificaCredecniales = true;
     }
 
-    Widget wg =
-    desingBtn(responsive,
-        title: "¿NO ERES TÚ?",
-        img: AppConfig.icon_usuario, onTap: () async {
-            DialogosWidget.alertSiNo(context,
-                title: "Huella",
-                message:
-                "Por su seguridad el acceso por huella sera desactivado."
-                    "\n\n¿Desea Continuar?",
-                onTap: (){
-                  prefs.setContadorFallido(0);
-                  prefs.setConfigHuella(false);
-                  prefs.setAppInicial(false);
-                  prefs.clearDatosUser();
-                  UtilidadesUtil.pantallasAbrirNuevaCerrarTodas(
-                      context: context, pantalla: AppConfig.pantallaLogin);
-                });
-
-        })
-    ;
+    Widget wg = desingBtn(responsive,
+        title: "¿NO ERES TÚ?", img: AppConfig.icon_usuario, onTap: () async {
+      DialogosWidget.alertSiNo(context,
+          title: "Huella",
+          message: "Por su seguridad el acceso por huella sera desactivado."
+              "\n\n¿Desea Continuar?", onTap: () {
+        prefs.setContadorFallido(0);
+        prefs.setConfigHuella(false);
+        prefs.setAppInicial(false);
+        prefs.clearDatosUser();
+        UtilidadesUtil.pantallasAbrirNuevaCerrarTodas(
+            context: context, pantalla: AppConfig.pantallaLogin);
+      });
+    });
 
     return wg;
   }
@@ -166,7 +172,6 @@ class _InicioRapidoPageState extends State<InicioRapidoPage> {
       img: img,
       titlte: title,
       horizontal: false,
-
       onTap: onTap,
       colorFondo: Colors.black26,
       colorTexto: Colors.white,
@@ -179,11 +184,9 @@ class _InicioRapidoPageState extends State<InicioRapidoPage> {
     try {
       var isValid = true;
 
-
       final _LoginApi = LoginApi();
 
       if (isValid) {
-
         if (peticionServer) return;
         setState(() {
           peticionServer = true;
@@ -196,12 +199,10 @@ class _InicioRapidoPageState extends State<InicioRapidoPage> {
         });
 
         if (int.parse(datosUser.idGenUsuario) > 0) {
-
-
           _UserProvider.setUser = datosUser;
 
           bool checkAccesoBiometrico =
-          await BiometricUtil.checkAccesoBiometrico();
+              await BiometricUtil.checkAccesoBiometrico();
           bool verificaCredecniales = false;
           if (prefs.getUser().length > 0 && prefs.getPass().length > 0) {
             verificaCredecniales = true;
@@ -219,7 +220,6 @@ class _InicioRapidoPageState extends State<InicioRapidoPage> {
     }
   }
 
-
   void InciarPantalla(bool actualizarApp) {
     if (actualizarApp) {
       DialogosWidget.alert(context, title: "Actualizar App", onTap: () {
@@ -227,8 +227,7 @@ class _InicioRapidoPageState extends State<InicioRapidoPage> {
 
         if (UtilidadesUtil.plataformaIsAndroid()) {
           UtilidadesUtil.abrirUrl(AppConfig.linkAppAndroid);
-        }
-        else{
+        } else {
           UtilidadesUtil.abrirUrl(AppConfig.linkAppIos);
         }
       },
@@ -242,25 +241,24 @@ class _InicioRapidoPageState extends State<InicioRapidoPage> {
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) =>
-                  VerificarGpsPage(pantalla: VerificaOpertaivoRecintoAbiertoPage())));
+              builder: (context) => VerificarGpsPage(
+                  pantalla: VerificaOpertaivoRecintoAbiertoPage())));
       /*Navigator.pushReplacementNamed(
               context, AppConfig.pantallaMenuRecintoElectoral);*/
     }
   }
 
-  _validateTieneFoto(BuildContext context){
-   if(validateFoto) {
-     if (!prefs.getImgValida()) {
-       UtilidadesUtil.pantallasAbrirNuevaCerrarTodas(
-           context: context, pantalla: AppConfig.pantallaLogin);
-     }
-     else{
-       validateFoto=false;
-       setState(() {
-         tieneFoto=true;
-       });
-     }
-   }
+  _validateTieneFoto(BuildContext context) {
+    if (validateFoto) {
+      if (!prefs.getImgValida()) {
+        UtilidadesUtil.pantallasAbrirNuevaCerrarTodas(
+            context: context, pantalla: AppConfig.pantallaLogin);
+      } else {
+        validateFoto = false;
+        setState(() {
+          tieneFoto = true;
+        });
+      }
+    }
   }
 }

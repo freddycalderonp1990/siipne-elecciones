@@ -213,6 +213,44 @@ class _MiUpcModificarDatosPageState extends State<MiUpcModificarDatosPage> {
             ),
           ),
           CargandoWidget(mostrar: peticionServer),
+
+          Positioned(
+              left: responsive.isVertical()
+                  ? responsive.altoP(1)
+                  : responsive.anchoP(1),
+              top: responsive.isVertical()
+                  ? responsive.altoP(1)
+                  : responsive.anchoP(2),
+              child: SafeArea(
+                child: CupertinoButton(
+                  minSize: responsive.isVertical()
+                      ? responsive.altoP(5)
+                      : responsive.anchoP(5),
+                  padding: EdgeInsets.all(3),
+                  borderRadius: BorderRadius.circular(30),
+                  color: Colors.blue,
+                  onPressed: () {
+
+                    UtilidadesUtil.pantallasAbrirNuevaCerrarTodas(
+                        context: context,
+                        pantalla: MiUpcAppConfig.menuPrincipalPage);
+
+
+
+
+
+
+                  },
+                  //volver atras
+                  child: Icon(
+                    Icons.arrow_back,
+                    color: Colors.black,
+                    size: responsive.isVertical()
+                        ? responsive.altoP(3)
+                        : responsive.anchoP(3),
+                  ),
+                ),
+              )),
         ],
       ),),
     );

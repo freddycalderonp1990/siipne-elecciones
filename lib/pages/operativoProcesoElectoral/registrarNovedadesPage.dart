@@ -2,18 +2,22 @@ part of '../pages.dart';
 
 class registrarNovedadesPage extends StatefulWidget {
   @override
-  _registrarNovedadesPageState createState() =>
-      _registrarNovedadesPageState();
+  _registrarNovedadesPageState createState() => _registrarNovedadesPageState();
 }
 
 class _registrarNovedadesPageState extends State<registrarNovedadesPage> {
   UserProvider _UserProvider;
   RecintoAbiertoProvider _RecintoProvider;
 
+  DatosPer _datosPers = new DatosPer(idGenPersona: "0");
+  GenPersonaApi _genPersonaApi = new GenPersonaApi();
+
   bool peticionServer = false;
   bool cargaInicial = true;
   bool validarForm = false;
   bool mostrarFoto = false;
+  bool mostrarGuardar = false;
+  bool registrarDatosPersona = false;
 
   bool selectPadre = true;
 
@@ -62,8 +66,6 @@ class _registrarNovedadesPageState extends State<registrarNovedadesPage> {
 
   var controllerNumerico = new TextEditingController();
 
-
-
   String observaciones = "";
 
   bool existeNovedades = true;
@@ -73,6 +75,7 @@ class _registrarNovedadesPageState extends State<registrarNovedadesPage> {
 
   List<NovedadesElectorale> _listNovedadesPadres = new List();
   List<NovedadesElectorale> _listNovedadesHijas = new List();
+  List<NovedadesElectorale> _listNovedadesNietos = new List();
   NovedadesElectoralesApi _novedadesElectoralesApi =
       new NovedadesElectoralesApi();
 
@@ -80,7 +83,7 @@ class _registrarNovedadesPageState extends State<registrarNovedadesPage> {
   int selectNovedad = 1; //1=SI, 2=NO
 
   String novedades;
-  String novedadesPadres, novedadesHijas;
+  String novedadesPadres, novedadesHijas, novedadesNietos;
   String idNovedades = "0";
 
   Color colorManifestantes = Colors.green;
@@ -98,6 +101,7 @@ class _registrarNovedadesPageState extends State<registrarNovedadesPage> {
         DateFormat(AppConfig.formatoSoloHora).format(selectedDate);
     controllerMinuto.text =
         DateFormat(AppConfig.formatoSoloMinuto).format(selectedDate);
+    print("registrarNovedadesPage - elecciones");
   }
 
   @override
@@ -232,20 +236,7 @@ class _registrarNovedadesPageState extends State<registrarNovedadesPage> {
     return Form(
       key: _formKey,
       child: Column(
-        children: [
-          ImputTextWidget(
-            keyboardType: TextInputType.number,
-            controller: controllerCedula,
-            icono: Icon(
-              Icons.assignment_sharp,
-              color: Colors.black38,
-              size: sizeIcons,
-            ),
-            label: title,
-            fonSize: responsive.anchoP(AppConfig.tamTextoTitulo),
-            validar: validateCedula,
-          ),
-        ],
+        children: [getWgCedulaWithFind(responsive)],
       ),
     );
   }
@@ -256,18 +247,7 @@ class _registrarNovedadesPageState extends State<registrarNovedadesPage> {
       key: _formKey,
       child: Column(
         children: [
-          ImputTextWidget(
-            keyboardType: TextInputType.number,
-            controller: controllerCedula,
-            icono: Icon(
-              Icons.assignment_sharp,
-              color: Colors.black38,
-              size: sizeIcons,
-            ),
-            label: title,
-            fonSize: responsive.anchoP(AppConfig.tamTextoTitulo),
-            validar: validateCedula,
-          ),
+          getWgCedulaWithFind(responsive),
           ImputTextWidget(
             keyboardType: TextInputType.number,
             controller: controllerTelefono,
@@ -284,6 +264,8 @@ class _registrarNovedadesPageState extends State<registrarNovedadesPage> {
       ),
     );
   }
+
+  //Widget para detenidos
 
   Widget wgTxtCedulaBoleta(ResponsiveUtil responsive) {
     return Form(
@@ -302,20 +284,64 @@ class _registrarNovedadesPageState extends State<registrarNovedadesPage> {
             fonSize: responsive.anchoP(AppConfig.tamTextoTitulo),
             validar: validateNumBoleta,
           ),
-          ImputTextWidget(
-            keyboardType: TextInputType.number,
-            controller: controllerCedula,
-            icono: Icon(
-              Icons.assignment_sharp,
-              color: Colors.black38,
-              size: sizeIcons,
-            ),
-            label: VariablesUtil.cedula,
-            fonSize: responsive.anchoP(AppConfig.tamTextoTitulo),
-            validar: validateCedula,
-          ),
+          getWgCedulaWithFind(responsive)
         ],
       ),
+    );
+  }
+
+  Widget getWgCedulaWithFind(ResponsiveUtil responsive) {
+    return Column(
+      children: [
+        Row(
+          children: [
+            Expanded(
+              flex: 3,
+              child: ImputTextWidget(
+                keyboardType: TextInputType.number,
+                controller: controllerCedula,
+                icono: Icon(
+                  Icons.assignment_sharp,
+                  color: Colors.black38,
+                  size: sizeIcons,
+                ),
+                label: VariablesUtil.cedula,
+                fonSize: responsive.anchoP(AppConfig.tamTextoTitulo),
+                validar: validateCedula,
+              ),
+            ),
+            Expanded(
+              flex: 1,
+              child: Container(
+                padding: EdgeInsets.all(10),
+                child: BtnIconWidget(
+                  onTap: () {
+                    _consultarDatosPersonaPorDocumento(
+                        cedula: controllerCedula.text,
+                        usuario: _UserProvider.getUser.idGenUsuario);
+                  },
+                  iconData: Icons.search,
+                  color: Colors.blueAccent,
+                ),
+              ),
+            )
+          ],
+        ),
+        SizedBox(
+          height: responsive.altoP(1),
+        ),
+        _datosPers.idGenPersona != "0"
+            ? Container(
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                child: TituloDetalleTextWidget(
+                  title: "Nombres:",
+                  detalle: _datosPers.siglas.length > 0
+                      ? _datosPers.siglas + "." + _datosPers.apenom
+                      : _datosPers.apenom,
+                ),
+              )
+            : Container()
+      ],
     );
   }
 
@@ -336,18 +362,7 @@ class _registrarNovedadesPageState extends State<registrarNovedadesPage> {
             fonSize: responsive.anchoP(AppConfig.tamTextoTitulo),
             validar: validateNumCitacion,
           ),
-          ImputTextWidget(
-            keyboardType: TextInputType.number,
-            controller: controllerCedula,
-            icono: Icon(
-              Icons.assignment_sharp,
-              color: Colors.black38,
-              size: sizeIcons,
-            ),
-            label: VariablesUtil.cedula,
-            fonSize: responsive.anchoP(AppConfig.tamTextoTitulo),
-            validar: validateCedula,
-          ),
+          getWgCedulaWithFind(responsive)
         ],
       ),
     );
@@ -743,10 +758,10 @@ class _registrarNovedadesPageState extends State<registrarNovedadesPage> {
     );
   }
 
-  Widget wgTxtHora(ResponsiveUtil responsive){
+  Widget wgTxtHora(ResponsiveUtil responsive) {
     return Form(
       key: _formKey,
-      child:  Column(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -777,12 +792,10 @@ class _registrarNovedadesPageState extends State<registrarNovedadesPage> {
             fonSize: responsive.anchoP(AppConfig.tamTextoTitulo),
             validar: validateNumerico,
           ),
-
         ],
       ),
     );
   }
-
 
   getNovedad(int valueRadio) {
     if (valueRadio == 1) {
@@ -933,9 +946,6 @@ class _registrarNovedadesPageState extends State<registrarNovedadesPage> {
     return null;
   }
 
-
-
-
   Widget btnGuardar(ResponsiveUtil responsive) {
     return int.parse(idNovedades) > 0
         ? Container(
@@ -956,6 +966,21 @@ class _registrarNovedadesPageState extends State<registrarNovedadesPage> {
       isValid = _formKey.currentState.validate();
     }
 
+    String nombreDetenido = "null";
+    String idGenPersonaD = "null";
+    if (registrarDatosPersona) {
+      if (_datosPers.idGenPersona == "0") {
+        DialogosWidget.alert(context,
+            title: "Persona",
+            message:
+                "No ha ingresado una cédula valida...Seleccione el icono buscar para continuar.");
+        return;
+      }
+
+      nombreDetenido = _datosPers.apenom;
+      idGenPersonaD = _datosPers.idGenPersona;
+    }
+
     print("isValid");
     print(isValid);
 
@@ -971,6 +996,8 @@ class _registrarNovedadesPageState extends State<registrarNovedadesPage> {
 
           if (insertImg) {
             await _RegistrarNovedades(
+                idGenPersonaD: idGenPersonaD,
+                nombreDetenido: nombreDetenido,
                 usuario: _UserProvider.getUser.idGenUsuario,
                 observacion: getObservacion(),
                 idDgoPerAsigOpe:
@@ -982,6 +1009,8 @@ class _registrarNovedadesPageState extends State<registrarNovedadesPage> {
       } else {
         print('no foto');
         await _RegistrarNovedades(
+            idGenPersonaD: idGenPersonaD,
+            nombreDetenido: nombreDetenido,
             usuario: _UserProvider.getUser.idGenUsuario,
             observacion: getObservacion(),
             idDgoPerAsigOpe: _RecintoProvider.getRecintoAbierto.idDgoPerAsigOpe,
@@ -993,11 +1022,10 @@ class _registrarNovedadesPageState extends State<registrarNovedadesPage> {
   List<String> getDatos(List<NovedadesElectorale> _listNovedadesPadres) {
     List<String> datos = new List();
     for (int i = 0; i < _listNovedadesPadres.length; i++) {
-    String descripcion=_listNovedadesPadres[i].descripcion;
-    if(descripcion!=null){
-      datos.add(descripcion);
-    }
-
+      String descripcion = _listNovedadesPadres[i].descripcion;
+      if (descripcion != null) {
+        datos.add(descripcion);
+      }
     }
     return datos;
   }
@@ -1015,11 +1043,14 @@ class _registrarNovedadesPageState extends State<registrarNovedadesPage> {
 
   Widget wgCajasTexto(String novedadesPadres, ResponsiveUtil responsive) {
     Widget wg = Container();
+    registrarDatosPersona = true;
+    print("estamos ingresando");
     if (novedadesPadres != null) {
       mostrarFoto = false;
       validarForm = false;
       switch (novedadesPadres.trim().toUpperCase()) {
         case "NOVEDADES":
+          registrarDatosPersona = false;
           break;
         case "DELITOS":
           validarForm = true;
@@ -1055,6 +1086,8 @@ class _registrarNovedadesPageState extends State<registrarNovedadesPage> {
     print(idDgoNovedadesElect);
     validarForm = false;
     mostrarFoto = false;
+
+    registrarDatosPersona = false;
     switch (idDgoNovedadesElect) {
       case 17:
         //1. RECINTOS ELECTORALES INSTALADOS
@@ -1084,6 +1117,7 @@ class _registrarNovedadesPageState extends State<registrarNovedadesPage> {
         wg = wgTxtCedula(responsive: responsive, title: VariablesUtil.cedulaSP);
         validarForm = true;
         mostrarFoto = true;
+
         break;
       case 22:
         //6. PRESENCIA DE MANIFESTANTES / CONCENTRACIONES / MARCHAS
@@ -1218,7 +1252,7 @@ class _registrarNovedadesPageState extends State<registrarNovedadesPage> {
         break;
 
       case 32:
-      //NUMÉRICO DE ACÉMILAS
+        //NUMÉRICO DE ACÉMILAS
         wg = wgTxtNumerico(responsive);
         validarForm = true;
         break;
@@ -1320,14 +1354,12 @@ class _registrarNovedadesPageState extends State<registrarNovedadesPage> {
         wg = wgTxtNumerico(responsive);
         validarForm = true;
 
-
         break;
 
       case 51:
         //NUMÉRICO DE CANES
         wg = wgTxtNumerico(responsive);
         validarForm = true;
-
 
         break;
 
@@ -1344,12 +1376,12 @@ class _registrarNovedadesPageState extends State<registrarNovedadesPage> {
         break;
 
       case 54:
-      //INICIA SERVICIO
+        //INICIA SERVICIO
         wg = wgTxtHora(responsive);
         validarForm = true;
         break;
       case 55:
-      //FINALIZA SERVICIO
+        //FINALIZA SERVICIO
         wg = wgTxtHora(responsive);
         validarForm = true;
 
@@ -1403,6 +1435,7 @@ class _registrarNovedadesPageState extends State<registrarNovedadesPage> {
 
   String getObservacion() {
     String observacion = "";
+    mostrarGuardar = true;
     ObservacionModel observacionModel =
         ObservacionModel(idDgoNovedadesElect: idNovedades);
     cedula = 'null';
@@ -1525,8 +1558,6 @@ class _registrarNovedadesPageState extends State<registrarNovedadesPage> {
         break;
 
       case 32:
-
-
         observacionModel = ObservacionModel(
           idDgoNovedadesElect: idNovedades,
           numerico: controllerNumerico.text,
@@ -1663,8 +1694,7 @@ class _registrarNovedadesPageState extends State<registrarNovedadesPage> {
         );
         break;
 
-
-    /******************************** UMO - CRACK- UER ******************************************/
+      /******************************** UMO - CRACK- UER ******************************************/
 
       case 49:
         observacionModel = ObservacionModel(
@@ -1693,15 +1723,15 @@ class _registrarNovedadesPageState extends State<registrarNovedadesPage> {
         break;
       case 54:
         observacionModel = ObservacionModel(
-          idDgoNovedadesElect: idNovedades,
+            idDgoNovedadesElect: idNovedades,
             hora: "${controllerHora.text}:${controllerMinuto.text}");
 
         break;
 
       case 55:
         observacionModel = ObservacionModel(
-          idDgoNovedadesElect: idNovedades,
-          hora: "${controllerHora.text}:${controllerMinuto.text}");
+            idDgoNovedadesElect: idNovedades,
+            hora: "${controllerHora.text}:${controllerMinuto.text}");
 
         break;
 
@@ -1782,7 +1812,7 @@ class _registrarNovedadesPageState extends State<registrarNovedadesPage> {
 
                   novedadesHijas = null;
                   idNovedades = "0";
-                  _listNovedadesHijas=[];
+                  _listNovedadesHijas = [];
 
                   if (novedadesPadres != null) {
                     wgCajaTextos = wgCajasTexto(novedadesPadres, responsive);
@@ -1808,11 +1838,9 @@ class _registrarNovedadesPageState extends State<registrarNovedadesPage> {
   }
 
   Widget getComboNovedadesHijos(ResponsiveUtil responsive) {
-
-    if(_listNovedadesHijas.length==0){
+    if (_listNovedadesHijas.length == 0) {
       return Container();
     }
-
 
     List<String> datos = getDatos(_listNovedadesHijas);
 
@@ -1820,7 +1848,7 @@ class _registrarNovedadesPageState extends State<registrarNovedadesPage> {
         ? Container(
             padding: EdgeInsets.symmetric(horizontal: paddingContenido),
             child: ComboConBusqueda(
-              selectValue:  novedadesHijas ,
+              selectValue: novedadesHijas,
               title: VariablesUtil.novedad,
               searchHint: 'Seleccione la ' + VariablesUtil.novedad,
               datos: datos,
@@ -1832,6 +1860,52 @@ class _registrarNovedadesPageState extends State<registrarNovedadesPage> {
                   if (novedadesHijas != null) {
                     idNovedades =
                         getIdNovedades(novedadesHijas, _listNovedadesHijas)
+                            .toString();
+
+                    if (novedadesPadres == "NOVEDADES") {
+                      wgCajaTextosHijas = wgCajasTextoNovedades(
+                          int.parse(idNovedades), responsive);
+                    }
+
+                    _getNovedadesNietos(int.parse(idNovedades));
+
+                    print("cambia");
+                  }
+                });
+              },
+            ))
+        : Container(
+            child: DetalleTextWidget(
+              detalle: "No exiten Novedades",
+            ),
+          );
+
+    return wg;
+  }
+
+  Widget getComboNovedadesNietos(ResponsiveUtil responsive) {
+    if (_listNovedadesNietos.length == 0) {
+      return Container();
+    }
+
+    List<String> datos = getDatos(_listNovedadesNietos);
+
+    Widget wg = _listNovedadesNietos.length > 0
+        ? Container(
+            padding: EdgeInsets.symmetric(horizontal: paddingContenido),
+            child: ComboConBusqueda(
+              selectValue: novedadesNietos,
+              title: "Delito",
+              searchHint: 'Seleccione la ' + VariablesUtil.novedad,
+              datos: datos,
+              complete: (dato) {
+                selectPadre = false;
+                setState(() {
+                  novedadesNietos = dato;
+                  idNovedades = "0";
+                  if (novedadesHijas != null) {
+                    idNovedades =
+                        getIdNovedades(novedadesNietos, _listNovedadesNietos)
                             .toString();
 
                     if (novedadesPadres == "NOVEDADES") {
@@ -1994,6 +2068,9 @@ class _registrarNovedadesPageState extends State<registrarNovedadesPage> {
               novedadesPadres != null
                   ? getComboNovedadesHijos(responsive)
                   : Container(),
+              novedadesHijas != null
+                  ? getComboNovedadesNietos(responsive)
+                  : Container(),
             ],
           ),
         ));
@@ -2016,39 +2093,112 @@ class _registrarNovedadesPageState extends State<registrarNovedadesPage> {
     });
   }
 
-  _RegistrarNovedades(
-      {@required String idDgoNovedadesElect,
-      @required String idDgoPerAsigOpe,
-      @required String observacion,
-      @required String usuario,
-      String imagen = "null"}) async {
-    if (idDgoPerAsigOpe == 0) return;
+  _consultarDatosPersonaPorDocumento(
+      {@required String cedula, @required String usuario}) async {
+    try {
+      bool isValid = true;
+      if (validarForm) {
+        isValid = _formKey.currentState.validate();
+      }
+
+      if (!isValid) {
+        return;
+      }
+
+      if (peticionServer) return;
+
+      setState(() {
+        peticionServer = true;
+      });
+
+      _datosPers = await _genPersonaApi.getDatosPersona(
+          context: context, usuario: usuario, cedula: cedula);
+
+      //Con esto obligo a que se actualize el wg
+      final responsive = ResponsiveUtil(context);
+      wgCajaTextos = wgCajasTexto("DETENIDOS", responsive);
+
+      print("_datosPers.apenom");
+
+      print(_datosPers.idGenPersona);
+
+      setState(() {
+        peticionServer = false;
+      });
+    } catch (e) {
+      print("un error ${e.toString()}");
+      setState(() {
+        peticionServer = false;
+      });
+    }
+  }
+
+  _getNovedadesNietos(int idNovedadPadre) async {
+    if (idNovedadPadre == 0) return;
 
     if (peticionServer) return;
     setState(() {
       peticionServer = true;
     });
-
-    String latitud =
-        _UserProvider.getUser.ubicacionSeleccionada.latitude.toString();
-    String longitud =
-        _UserProvider.getUser.ubicacionSeleccionada.longitude.toString();
-
-    await _novedadesElectoralesApi.registrarNovedadesElectorales(
+    _listNovedadesNietos = await _novedadesElectoralesApi.getNovedadesHijas(
+        isNieto: true,
         context: context,
-        idDgoPerAsigOpe: idDgoPerAsigOpe,
-        usuario: usuario,
-        idDgoNovedadesElect: idDgoNovedadesElect,
-        observacion: observacion,
-        imagen: imagen,
-        latitud: latitud,
-        longitud: longitud,
-        cedula: cedula,
-        idDgoProcElec: _RecintoProvider.getRecintoAbierto.idDgoProcElec);
+        idNovedadesPadre: idNovedadPadre.toString(),
+        idDgoTipoEje: _RecintoProvider.getRecintoAbierto.idDgoTipoEje);
+    if (_listNovedadesNietos.length > 0) {
+      novedadesNietos = _listNovedadesNietos[0].descripcion;
+      idNovedades = _listNovedadesNietos[0].idDgoNovedadesElect;
+      mostrarGuardar = false;
+    }
 
     setState(() {
       peticionServer = false;
     });
+  }
+
+  _RegistrarNovedades(
+      {@required String idDgoNovedadesElect,
+      @required String idDgoPerAsigOpe,
+      @required String observacion,
+      @required String usuario,
+      @required String nombreDetenido = "null",
+      @required String idGenPersonaD = "null",
+      String imagen = "null"}) async {
+    try {
+      if (idDgoPerAsigOpe == 0) return;
+
+      if (peticionServer) return;
+      setState(() {
+        peticionServer = true;
+      });
+
+      String latitud =
+          _UserProvider.getUser.ubicacionSeleccionada.latitude.toString();
+      String longitud =
+          _UserProvider.getUser.ubicacionSeleccionada.longitude.toString();
+
+      await _novedadesElectoralesApi.registrarNovedadesElectorales(
+          context: context,
+          idDgoPerAsigOpe: idDgoPerAsigOpe,
+          usuario: usuario,
+          idDgoNovedadesElect: idDgoNovedadesElect,
+          observacion: observacion,
+          idGenPersonaD: idGenPersonaD,
+          nombreDetenido: nombreDetenido,
+          imagen: imagen,
+          latitud: latitud,
+          longitud: longitud,
+          cedula: cedula,
+          idDgoProcElec: _RecintoProvider.getRecintoAbierto.idDgoProcElec);
+
+      setState(() {
+        peticionServer = false;
+      });
+    } catch (e) {
+      setState(() {
+        peticionServer = false;
+      });
+    }
   }
 
   Future<bool> guardarImgRecElectNovedades(

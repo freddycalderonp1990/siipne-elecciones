@@ -19,8 +19,10 @@ class _TipoEjeUnidadesPolicialesPageState
   List<UnidadesPoliciale> _listUnidadesPolicialesPadres = new List();
   List<UnidadesPoliciale> _listUnidadesPolicialesHijas = new List();
   List<UnidadesPoliciale> _listUnidadesPolicialesNietas = new List();
-  String unidadPolicialPadre, unidadPolicialHija,unidadPolicialNieta;
-  int idUnidadPolicialPadre = 0, idUnidadPolicialHija = 0, idUnidadPolicialNieta = 0;
+  String unidadPolicialPadre, unidadPolicialHija, unidadPolicialNieta;
+  int idUnidadPolicialPadre = 0,
+      idUnidadPolicialHija = 0,
+      idUnidadPolicialNieta = 0;
 
   //CONFIGURACIONES
   final anchoContenedor = AppConfig.anchoContenedor;
@@ -77,7 +79,6 @@ class _TipoEjeUnidadesPolicialesPageState
               SizedBox(
                 height: responsive.altoP(8),
               ),
-
               btnContinuar(responsive),
               SizedBox(
                 height: responsive.altoP(4),
@@ -137,7 +138,7 @@ class _TipoEjeUnidadesPolicialesPageState
   Widget getComboNovedadesPadres(ResponsiveUtil responsive) {
     List<String> datos =
         getDatosUnidadesPoliciales(_listUnidadesPolicialesPadres);
-   return _listUnidadesPolicialesPadres.length > 0
+    return _listUnidadesPolicialesPadres.length > 0
         ? Container(
             padding: EdgeInsets.symmetric(horizontal: paddingContenido),
             child: ComboConBusqueda(
@@ -148,10 +149,10 @@ class _TipoEjeUnidadesPolicialesPageState
               complete: (dato) {
                 selectPadre = true;
                 setState(() async {
-                 unidadPolicialPadre = dato;
+                  unidadPolicialPadre = dato;
                   unidadPolicialHija = null;
                   idUnidadPolicialHija = 0;
-                  _listUnidadesPolicialesHijas=[];
+                  _listUnidadesPolicialesHijas = [];
                   if (unidadPolicialPadre != null) {
                     if (_listUnidadesPolicialesHijas.length > 0) {
                       unidadPolicialHija =
@@ -162,7 +163,7 @@ class _TipoEjeUnidadesPolicialesPageState
                     }
                     int idNovedadPadre = getIdUnidadPolicial(
                         unidadPolicialPadre, _listUnidadesPolicialesPadres);
-                  await  _getUnidadesPolicialesHijasNivel1(idNovedadPadre);
+                    await _getUnidadesPolicialesHijasNivel1(idNovedadPadre);
                   }
                 });
               },
@@ -177,14 +178,12 @@ class _TipoEjeUnidadesPolicialesPageState
   Widget getComboNovedadesHijos(ResponsiveUtil responsive) {
     List<String> datos =
         getDatosUnidadesPoliciales(_listUnidadesPolicialesHijas);
-    if(datos.length==0){
+    if (datos.length == 0) {
       return Container();
-
     }
-    if(selectPadre){
-      unidadPolicialHija=datos[0];
+    if (selectPadre) {
+      unidadPolicialHija = datos[0];
     }
-
 
     try {
       Widget wg = _listUnidadesPolicialesHijas.length > 0
@@ -225,6 +224,7 @@ class _TipoEjeUnidadesPolicialesPageState
       return Container();
     }
   }
+
   _getUnidadesPoliciales() async {
     try {
       String latitud =
@@ -284,8 +284,7 @@ class _TipoEjeUnidadesPolicialesPageState
       setState(() {
         peticionServer = false;
         cargaInicial = false;
-        idUnidadPolicialHija=0;
-
+        idUnidadPolicialHija = 0;
       });
     }
   }

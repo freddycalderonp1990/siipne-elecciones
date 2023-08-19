@@ -7,8 +7,8 @@ class MiUpcMenuPrincipalPage extends StatefulWidget {
 
 class _MiUpcMenuPrincipalPageState extends State<MiUpcMenuPrincipalPage> {
   List<Modulo> listaModulo = new List();
-  List<String> modulosNoMostrar=new List();
-  var imgMemory=null;
+  List<String> modulosNoMostrar = new List();
+  var imgMemory = null;
   List<Lnoti> listaD = new List();
   List<Lnoti> listaV = new List();
   List<Lnoti> listaM = new List();
@@ -52,7 +52,8 @@ class _MiUpcMenuPrincipalPageState extends State<MiUpcMenuPrincipalPage> {
       estadoConex = 'N';
       MiUpcDialogosWidget.alertasV(
           context: context,
-          txt: "No Existe Conexión a Internet, asegurese de estar conectado a una red wifi o plan de datos");
+          txt:
+              "No Existe Conexión a Internet, asegurese de estar conectado a una red wifi o plan de datos");
       Navigator.of(context).pop();
     }
   }
@@ -176,7 +177,8 @@ class _MiUpcMenuPrincipalPageState extends State<MiUpcMenuPrincipalPage> {
                     shrinkWrap: true,
                     itemCount: listaModulo != null ? listaModulo.length : 0,
                     itemBuilder: (context, ind) {
-                     imgMemory =  PhotoHelper.convertStringToUint8List( listaModulo[ind].imgBase64);
+                      imgMemory = PhotoHelper.convertStringToUint8List(
+                          listaModulo[ind].imgBase64);
                       return InkWell(
                         onTap: () => muestraPantalla(ind, context),
                         child: Container(
@@ -185,14 +187,17 @@ class _MiUpcMenuPrincipalPageState extends State<MiUpcMenuPrincipalPage> {
                               Container(
                                 child: Row(
                                   children: <Widget>[
-                                    imgMemory!=null?Container(
-                                      height: responsive.altoP(8),
-                                      width: responsive.altoP(8),
-                                      child: Image.memory(imgMemory) ,):Container(
-                                        height: responsive.altoP(8),
-                                        width: responsive.altoP(8),
-                                      child:Image.asset(MiUpcAppConfig.imgEscpolicia)
-                                    ),
+                                    imgMemory != null
+                                        ? Container(
+                                            height: responsive.altoP(8),
+                                            width: responsive.altoP(8),
+                                            child: Image.memory(imgMemory),
+                                          )
+                                        : Container(
+                                            height: responsive.altoP(8),
+                                            width: responsive.altoP(8),
+                                            child: Image.asset(
+                                                MiUpcAppConfig.imgEscpolicia)),
                                     Flexible(
                                       child: Column(
                                         crossAxisAlignment:
@@ -233,12 +238,6 @@ class _MiUpcMenuPrincipalPageState extends State<MiUpcMenuPrincipalPage> {
                   ),
                 ),
               ),
-              Container(
-                height: responsive.isVertical()
-                    ? responsive.altoP(5)
-                    : responsive.altoP(10),
-                child: bannerInferior(responsive),
-              )
             ],
           ),
           CargandoWidget(mostrar: peticionServer),
@@ -353,12 +352,13 @@ class _MiUpcMenuPrincipalPageState extends State<MiUpcMenuPrincipalPage> {
       setState(() {
         listaModulo = modulosModel.modulos;
 
-        for(int i=0;i<listaModulo.length;i++){
-          for(int m=0;m<modulosNoMostrar.length;m++){
+        for (int i = 0; i < listaModulo.length; i++) {
+          for (int m = 0; m < modulosNoMostrar.length; m++) {
             print(listaModulo[i].tituloModulo);
             print(modulosNoMostrar[m]);
 
-            if(listaModulo[i].tituloModulo.trim().toUpperCase()== modulosNoMostrar[m].trim().toUpperCase()){
+            if (listaModulo[i].tituloModulo.trim().toUpperCase() ==
+                modulosNoMostrar[m].trim().toUpperCase()) {
               listaModulo.removeAt(i);
               print("remover");
             }
@@ -437,8 +437,8 @@ class _MiUpcMenuPrincipalPageState extends State<MiUpcMenuPrincipalPage> {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) =>
-                VerificarGpsPage(pantalla: MiUpcMapaUpcPage())));
+            builder: (context) => VerificarGpsPage(
+                isElecciones: false, pantalla: MiUpcMapaUpcPage())));
   }
 
   registrOBotonSeguridad(BuildContext ctx) async {
@@ -539,41 +539,59 @@ class _MiUpcMenuPrincipalPageState extends State<MiUpcMenuPrincipalPage> {
       case 3:
         String _ip = await UtilidadesUtil.getIp();
         MiUpcAuditoriaApi auditoria = new MiUpcAuditoriaApi();
-        auditoria.grabaAccion(MiUpcConstApi.latitud, MiUpcConstApi.longitud, 'COUSULTA',
-            'OPCIONES VIOLENCIA DE GÉNERO', prefs.getidUsuarioMiUpc(), _ip, context);
+        auditoria.grabaAccion(
+            MiUpcConstApi.latitud,
+            MiUpcConstApi.longitud,
+            'COUSULTA',
+            'OPCIONES VIOLENCIA DE GÉNERO',
+            prefs.getidUsuarioMiUpc(),
+            _ip,
+            context);
         Navigator.pushNamed(context, MiUpcAppConfig.listaViolenciaPage);
         break;
 
-      case 4:
+      /* case 4:
         String _ip = await UtilidadesUtil.getIp();
         MiUpcAuditoriaApi auditoria = new MiUpcAuditoriaApi();
         auditoria.grabaAccion(MiUpcConstApi.latitud, MiUpcConstApi.longitud, 'COUSULTA',
             'OPCIONES COVID', prefs.getidUsuarioMiUpc(), _ip, context);
         MiUpcDialogosWidget.alertOpcionesCovid(context: ctx);
+        break;*/
+
+      case 4:
+        String _ip = await UtilidadesUtil.getIp();
+        MiUpcAuditoriaApi auditoria = new MiUpcAuditoriaApi();
+        auditoria.grabaAccion(
+            MiUpcConstApi.latitud,
+            MiUpcConstApi.longitud,
+            'COUSULTA',
+            'LISTA SERVICIOS POLCO',
+            prefs.getidUsuarioMiUpc(),
+            _ip,
+            context);
+        Navigator.pushNamed(context, MiUpcAppConfig.listaServiciosPolcoPage);
         break;
 
       case 5:
         String _ip = await UtilidadesUtil.getIp();
         MiUpcAuditoriaApi auditoria = new MiUpcAuditoriaApi();
-        auditoria.grabaAccion(MiUpcConstApi.latitud, MiUpcConstApi.longitud, 'COUSULTA',
-            'LISTA SERVICIOS POLCO', prefs.getidUsuarioMiUpc(), _ip, context);
-        Navigator.pushNamed(context, MiUpcAppConfig.listaServiciosPolcoPage);
+        auditoria.grabaAccion(
+            MiUpcConstApi.latitud,
+            MiUpcConstApi.longitud,
+            'COUSULTA',
+            'MEDIDAS DE AUTOPROTECCIÓN',
+            prefs.getidUsuarioMiUpc(),
+            _ip,
+            context);
+        Navigator.pushNamed(
+            context, MiUpcAppConfig.listaMedidasAutoproteccionPage);
         break;
 
       case 6:
-
         String _ip = await UtilidadesUtil.getIp();
         MiUpcAuditoriaApi auditoria = new MiUpcAuditoriaApi();
-        auditoria.grabaAccion(MiUpcConstApi.latitud, MiUpcConstApi.longitud, 'COUSULTA',
-            'MEDIDAS DE AUTOPROTECCIÓN', prefs.getidUsuarioMiUpc(), _ip, context);
-        Navigator.pushNamed(context, MiUpcAppConfig.listaMedidasAutoproteccionPage);
-        break;
-
-      case 7:
-        String _ip = await UtilidadesUtil.getIp();
-        MiUpcAuditoriaApi auditoria = new MiUpcAuditoriaApi();
-        auditoria.grabaAccion(MiUpcConstApi.latitud, MiUpcConstApi.longitud, 'ACCESO',
-            'NOTICIAS', prefs.getidUsuarioMiUpc(), _ip, context);
+        auditoria.grabaAccion(MiUpcConstApi.latitud, MiUpcConstApi.longitud,
+            'ACCESO', 'NOTICIAS', prefs.getidUsuarioMiUpc(), _ip, context);
         Navigator.pushNamed(context, MiUpcAppConfig.ListaNoticiasPage,
             arguments: '8888888888888888888881');
         break;

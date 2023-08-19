@@ -4,10 +4,8 @@ class NovedadesElectoralesApi {
   static const String tag = "Novedades->";
 
   Future<List<NovedadesElectorale>> getNovedadesPadres({
-
     @required BuildContext context,
     @required String idDgoTipoEje,
-
   }) async {
     try {
       String titleJson = "novedadesElectorales";
@@ -43,8 +41,7 @@ class NovedadesElectoralesApi {
           return list;
         } else {
           DialogosWidget.alert(context,
-              title: "Novedades",
-              message: "No existen Novedades");
+              title: "Novedades", message: "No existen Novedades");
           return new List();
         }
       } else {
@@ -52,9 +49,7 @@ class NovedadesElectoralesApi {
           DialogosWidget.alert(context, onTap: () {
             Navigator.of(context).pop();
             Navigator.of(context).pop();
-          },
-              title: "Novedades",
-              message: "No existen Novedades");
+          }, title: "Novedades", message: "No existen Novedades");
         } else {
           DialogosWidget.error(context, message: msj);
         }
@@ -74,6 +69,7 @@ class NovedadesElectoralesApi {
     @required BuildContext context,
     @required String idNovedadesPadre,
     @required String idDgoTipoEje,
+    bool isNieto = false,
   }) async {
     try {
       String titleJson = "novedadesElectorales";
@@ -107,19 +103,21 @@ class NovedadesElectoralesApi {
         if (list.length > 0) {
           return list;
         } else {
-          DialogosWidget.alert(context,
-              title: "Novedades",
-              message: "No existen Novedades");
+          if (!isNieto) {
+            DialogosWidget.alert(context,
+                title: "Novedades", message: "No existen Novedades");
+          }
+
           return new List();
         }
       } else {
         if (msj == ConstApi.varNoExiste) {
-          DialogosWidget.alert(context, onTap: () {
-            Navigator.of(context).pop();
-            Navigator.of(context).pop();
-          },
-              title: "Novedades",
-              message: "No existen Novedades ");
+          if (!isNieto) {
+            DialogosWidget.alert(context, onTap: () {
+              Navigator.of(context).pop();
+              Navigator.of(context).pop();
+            }, title: "Novedades", message: "No existen Novedades ");
+          }
         } else {
           DialogosWidget.error(context, message: msj);
         }
@@ -143,9 +141,11 @@ class NovedadesElectoralesApi {
     @required String usuario,
     @required String latitud,
     @required String longitud,
-    @required String cedula='null',
+    @required String nombreDetenido="null",
+    @required String idGenPersonaD="null",
+    @required String cedula = 'null',
     String idDgoProcElec,
-     String imagen="No Imagen",
+    String imagen = "No Imagen",
   }) async {
     try {
       String titleJson = "insertNovedadesElectorales";
@@ -159,11 +159,13 @@ class NovedadesElectoralesApi {
         "observacion": observacion,
         "usuario": usuario,
         "ip": ip,
-        "imagen":imagen,
-        "latitud":latitud,
-        "longitud":longitud,
-        "cedula":cedula,
-        "idDgoProcElec":idDgoProcElec
+        "imagen": imagen,
+        "latitud": latitud,
+        "longitud": longitud,
+        "cedula": cedula,
+        "idDgoProcElec": idDgoProcElec,
+        "nombreDetenido": nombreDetenido,
+        "idGenPersonaD": idGenPersonaD
       };
 
       //cUANDO SE NECESITA LOS METODOS ESPECIFICO PARA CADA MODULO SE ENVIA POR PARAMETRO EL MODULO CORRESPONDIENTE
@@ -176,34 +178,29 @@ class NovedadesElectoralesApi {
       }
 
       //se verifica que el servidor envie una respuesta valida
-      String msj = await ResponseApi.validateInsert(json: json, titleJson: titleJson);
+      String msj =
+          await ResponseApi.validateInsert(json: json, titleJson: titleJson);
 
       if (msj == ConstApi.varTrue) {
         DialogosWidget.alert(context, onTap: () {
           Navigator.of(context).pop();
           Navigator.of(context).pop();
-        },
-            title: "NOVEDADES",
-            message: "Registro de Novedad con éxito");
+        }, title: "NOVEDADES", message: "Registro de Novedad con éxito");
         return true;
       } else {
-        if(msj==ConstApi.varExiste){
-
+        if (msj == ConstApi.varExiste) {
+          DialogosWidget.alert(context, onTap: () {
+            Navigator.of(context).pop();
+          },
+              title: "NOVEDADES",
+              message: "Ya existe una novedad registrada con este documento");
+        } else {
           DialogosWidget.alert(context, onTap: () {
             Navigator.of(context).pop();
           },
               title: "NOVEDADES",
               message:
-              "Ya existe una novedad registrada con este documento");
-        }
-        else{
-
-          DialogosWidget.alert(context, onTap: () {
-            Navigator.of(context).pop();
-          },
-              title: "NOVEDADES",
-              message:
-              "No se pudo Registrar la Novedad. Vuelva a intentar o contacte con el administrador del sistema.");
+                  "No se pudo Registrar la Novedad. Vuelva a intentar o contacte con el administrador del sistema.");
         }
 
         return false;
@@ -220,7 +217,7 @@ class NovedadesElectoralesApi {
   Future<List<NovedadesElectoralesDetalle>> getDetalleNovedadesPorRecinto(
       {@required BuildContext context,
       @required String idDgoCreaOpReci,
-        String msj1='',
+      String msj1 = '',
       bool mostrarMsj = true}) async {
     try {
       String titleJson = "novedadesElectoralesDetalle";
@@ -230,13 +227,12 @@ class NovedadesElectoralesApi {
         ConstApi.varOpc: ConstApi.ConsultarNovedadesRecintoElectoralReporte,
         "idDgoCreaOpReci": idDgoCreaOpReci,
       };
-      String msjMostrar='No existen Novedades';
-      if(msj1!=''){
-        msjMostrar=msj1;
+      String msjMostrar = 'No existen Novedades';
+      if (msj1 != '') {
+        msjMostrar = msj1;
       }
 
       //cUANDO SE NECESITA LOS METODOS ESPECIFICO PARA CADA MODULO SE ENVIA POR PARAMETRO EL MODULO CORRESPONDIENTE
-
 
       final json = await UrlApi.getUrl(context, parametros,
           modulo: ConstApi.moduloRecintoElectoral);
@@ -261,8 +257,7 @@ class NovedadesElectoralesApi {
         } else {
           if (mostrarMsj) {
             DialogosWidget.alert(context,
-                title: "NOVEDADES",
-                message:msjMostrar);
+                title: "NOVEDADES", message: msjMostrar);
           }
           return new List();
         }
@@ -270,8 +265,7 @@ class NovedadesElectoralesApi {
         if (msj == ConstApi.varNoExiste) {
           if (mostrarMsj) {
             DialogosWidget.alert(context,
-                title: "NOMEDADES",
-                message: msjMostrar);
+                title: "NOMEDADES", message: msjMostrar);
           }
         } else {
           DialogosWidget.error(context, message: msj);
@@ -280,7 +274,8 @@ class NovedadesElectoralesApi {
         return new List();
       }
     } catch (e) {
-      String msj = tag + "No se cargan los Detalles de las Novedades ${e.toString()}";
+      String msj =
+          tag + "No se cargan los Detalles de las Novedades ${e.toString()}";
       print(msj);
       DialogosWidget.error(context, message: msj);
 
@@ -288,11 +283,10 @@ class NovedadesElectoralesApi {
     }
   }
 
-   Future<bool> guardarImgRecElectNovedades(
+  Future<bool> guardarImgRecElectNovedades(
       {@required BuildContext context,
-        @required File image,
-        @required String nameImg}) async {
-
+      @required File image,
+      @required String nameImg}) async {
     try {
       String titleJson = "insertImgRecElectNovedades";
       String base64Image = base64Encode(image.readAsBytesSync());
@@ -302,27 +296,26 @@ class NovedadesElectoralesApi {
         ConstApi.varOpc: ConstApi.GuardarImgRecElectNovedades,
       };
 
-      final file =
-      await MyFile.writeFile(palabra: base64Image.toString(), name: nameImg);
+      final file = await MyFile.writeFile(
+          palabra: base64Image.toString(), name: nameImg);
 
       final json = await UrlApi.getUrl(context, parametros,
           modulo: ConstApi.moduloRecintoElectoral, file: file);
 
       //se verifica que el servidor envie una respuesta valida
-      String msj = await ResponseApi.validateInsert(json: json, titleJson: titleJson);
+      String msj =
+          await ResponseApi.validateInsert(json: json, titleJson: titleJson);
 
       print("msj  {$msj}");
 
       if (msj == ConstApi.varTrue) {
         print("guarad img");
         return true;
-      }
-      else {
+      } else {
         print("no guarad img");
         return false;
       }
-    }
-    catch(e){
+    } catch (e) {
       String msj = tag + "No se guarda la imagen de la novedad ${e.toString()}";
       print(msj);
       DialogosWidget.error(context, message: msj);

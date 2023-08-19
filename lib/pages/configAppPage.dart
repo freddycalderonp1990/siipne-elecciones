@@ -18,13 +18,13 @@ class _ConfigAppPageState extends State<ConfigAppPage> {
   bool peticionServer = false;
   bool cargaInicial = true;
 
-  ConfigAppApi mConfigAppApi=new ConfigAppApi();
+  ConfigAppApi mConfigAppApi = new ConfigAppApi();
 
   @override
   Widget build(BuildContext context) {
     final responsive = ResponsiveUtil(context);
     sizeTxt = responsive.anchoP(AppConfig.tamTexto + 2.0);
-
+    print("ConfigAppPage - elecciones");
     return WorkAreaPageWidget(
       btnAtras: true,
       peticionServer: peticionServer,
@@ -36,55 +36,57 @@ class _ConfigAppPageState extends State<ConfigAppPage> {
   }
 
   _getContenido(ResponsiveUtil responsive) {
-
-    Widget wgAndroid=ContenedorDesingWidget(
+    Widget wgAndroid = ContenedorDesingWidget(
         margin: EdgeInsets.only(top: 10),
         child: Column(
           children: <Widget>[
-
             Row(
               children: [
                 Container(
                   width: responsive.anchoP(40),
-                  child: Column(children: [
-                    TituloTextWidget(
-                      title: "ANDROID",
-                    ),
-                    ImputTextWidget(
-                      controller: controllerCodeAndroid,
-                      elevation: 1,
-                      label: "Code",
-                      fonSize: sizeTxt,
-                      hitText: "Code",
-                      validar: (String text) {
-                        if (text.length >= 1) {
-                          return null;
-                        }
-                        return "Error";
-                      },
-                    )
-                  ],),
+                  child: Column(
+                    children: [
+                      TituloTextWidget(
+                        title: "ANDROID",
+                      ),
+                      ImputTextWidget(
+                        controller: controllerCodeAndroid,
+                        elevation: 1,
+                        label: "Code",
+                        fonSize: sizeTxt,
+                        hitText: "Code",
+                        validar: (String text) {
+                          if (text.length >= 1) {
+                            return null;
+                          }
+                          return "Error";
+                        },
+                      )
+                    ],
+                  ),
                 ),
                 Container(
                   width: responsive.anchoP(40),
-                  child:  Column(children: [
-                    TituloTextWidget(
-                      title: "IOS",
-                    ),
-                    ImputTextWidget(
-                      controller: controllerCodeIos,
-                      elevation: 1,
-                      label: "Code",
-                      fonSize: sizeTxt,
-                      hitText: "Code",
-                      validar: (String text) {
-                        if (text.length >= 1) {
-                          return null;
-                        }
-                        return "Error";
-                      },
-                    )
-                  ],),
+                  child: Column(
+                    children: [
+                      TituloTextWidget(
+                        title: "IOS",
+                      ),
+                      ImputTextWidget(
+                        controller: controllerCodeIos,
+                        elevation: 1,
+                        label: "Code",
+                        fonSize: sizeTxt,
+                        hitText: "Code",
+                        validar: (String text) {
+                          if (text.length >= 1) {
+                            return null;
+                          }
+                          return "Error";
+                        },
+                      )
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -94,18 +96,21 @@ class _ConfigAppPageState extends State<ConfigAppPage> {
           ],
         ));
 
-
     Widget desing = Column(
       children: <Widget>[
         Form(
             key: _formKey,
             child: Column(
-
               children: [
-              TituloDetalleTextWidget(title: "Hora Server",detalle: "02:00:00",mostrarLinea: true,mostrarBorder: true,),
-              wgAndroid,
-
-            ],)),
+                TituloDetalleTextWidget(
+                  title: "Hora Server",
+                  detalle: "02:00:00",
+                  mostrarLinea: true,
+                  mostrarBorder: true,
+                ),
+                wgAndroid,
+              ],
+            )),
         SizedBox(
           height: responsive.altoP(4),
         ),
@@ -129,15 +134,17 @@ class _ConfigAppPageState extends State<ConfigAppPage> {
     return desing;
   }
 
-  _setConfigApp() async{
+  _setConfigApp() async {
     setState(() {
-      peticionServer=true;
+      peticionServer = true;
     });
 
-    await mConfigAppApi.setConfigApp(codeIos: controllerCodeIos.text, codeAndroid: controllerCodeAndroid.text, context: context);
+    await mConfigAppApi.setConfigApp(
+        codeIos: controllerCodeIos.text,
+        codeAndroid: controllerCodeAndroid.text,
+        context: context);
     setState(() {
-      peticionServer=false;
+      peticionServer = false;
     });
-
   }
 }

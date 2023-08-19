@@ -186,7 +186,7 @@ class _AddPersonalPageState extends State<AddPersonalPage> {
                         ),
                         TituloDetalleTextWidget(
                           title: "Nombres",
-                          detalle: _datosPers.siglas + "." + _datosPers.apenom,
+                          detalle:_datosPers.siglas.length>0? _datosPers.siglas + "." + _datosPers.apenom:_datosPers.apenom,
                           mostrarBorder: true,
                         ),
                       ],

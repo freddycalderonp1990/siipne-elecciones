@@ -119,7 +119,7 @@ class _MiUpcListaNoticiasPageState extends State<MiUpcListaNoticiasPage> {
                   ],
                 ),
                 Container(
-                  child: Image.asset('assets/img/linea.png'),
+                  child: Image.asset(MiUpcAppConfig.imgLinea),
                   width: responsive.altoP(50),
                 ),
                 Row(
@@ -226,7 +226,7 @@ class _MiUpcListaNoticiasPageState extends State<MiUpcListaNoticiasPage> {
 
                 Text(UtilidadesUtil.getFechaActual(),style: TextStyle(fontSize: responsive.altoP(0.8)),),
                 Container(
-                  child: Image.asset('assets/img/linea.png'),
+                  child: Image.asset(MiUpcAppConfig.imgLinea),
                   width: responsive.altoP(50),
                 ),
               ],

@@ -7,24 +7,25 @@ class MiUpcAcuerdoConfiPage extends StatefulWidget {
 
 class _MiUpcAcuerdoConfiPageState extends State<MiUpcAcuerdoConfiPage> {
   bool chk = false;
-
+  final prefsSelectApp = new PreferenciasSelectApp();
   @override
   Widget build(BuildContext context) {
     //final size = MediaQuery.of(context).size;
     final responsive = ResponsiveUtil(context);
     return Scaffold(
-        body:SafeArea(child:  Stack(
-          children: <Widget>[
-            Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(MiUpcAppConfig.imgFondo),
-                  fit: BoxFit.cover,
-                ),
+        body: SafeArea(
+      child: Stack(
+        children: <Widget>[
+          Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(MiUpcAppConfig.imgFondo),
+                fit: BoxFit.cover,
               ),
             ),
-            SingleChildScrollView(child: Column(
-
+          ),
+          SingleChildScrollView(
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Center(
@@ -40,7 +41,7 @@ class _MiUpcAcuerdoConfiPageState extends State<MiUpcAcuerdoConfiPage> {
                   child: SingleChildScrollView(
                     child: Container(
                       padding:
-                      EdgeInsets.symmetric(vertical: 0.0, horizontal: 15.0),
+                          EdgeInsets.symmetric(vertical: 0.0, horizontal: 15.0),
                       child: (Column(
                         children: <Widget>[
                           Text(
@@ -103,7 +104,6 @@ class _MiUpcAcuerdoConfiPageState extends State<MiUpcAcuerdoConfiPage> {
                           ),
                           Divider(
                             color: MiUpcAppConfig.colorBarras,
-
                           ),
                         ],
                       )),
@@ -111,9 +111,43 @@ class _MiUpcAcuerdoConfiPageState extends State<MiUpcAcuerdoConfiPage> {
                   ),
                 ),
               ],
-            ),)
-          ],
-        ),));
+            ),
+          ),
+          Positioned(
+              left: responsive.isVertical()
+                  ? responsive.altoP(1)
+                  : responsive.anchoP(1),
+              top: responsive.isVertical()
+                  ? responsive.altoP(1)
+                  : responsive.anchoP(2),
+              child: SafeArea(
+                child: CupertinoButton(
+                  minSize: responsive.isVertical()
+                      ? responsive.altoP(5)
+                      : responsive.anchoP(5),
+                  padding: EdgeInsets.all(3),
+                  borderRadius: BorderRadius.circular(30),
+                  color: Colors.blue,
+                  onPressed: () {
+                    prefsSelectApp.setSelectSiipne(false);
+                    prefsSelectApp.setSelecMiUpc(false);
+                    UtilidadesUtil.pantallasAbrirNuevaCerrarTodas(
+                        context: context,
+                        pantalla: AppConfig.pantallaBienvenida);
+                  },
+                  //volver atras
+                  child: Icon(
+                    Icons.arrow_back,
+                    color: Colors.black,
+                    size: responsive.isVertical()
+                        ? responsive.altoP(3)
+                        : responsive.anchoP(3),
+                  ),
+                ),
+              )),
+        ],
+      ),
+    ));
   }
 
   void ingresar(bool c) async {
@@ -129,40 +163,92 @@ class _MiUpcAcuerdoConfiPageState extends State<MiUpcAcuerdoConfiPage> {
   }
 
   Widget alertas(BuildContext context) {
-    MiUpcDialogosWidget.alertasV(txt: 'PARA CONTINUAR DEBE ACEPTAR LOS TÉRMINOS Y CONDICIONES DE USO DEL APLICATIVO.',context: context);
-
+    MiUpcDialogosWidget.alertasV(
+        txt:
+            'PARA CONTINUAR DEBE ACEPTAR LOS TÉRMINOS Y CONDICIONES DE USO DEL APLICATIVO.',
+        context: context);
   }
 
   Widget _btnRegistrar(chk) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 25.0),
       width: double.infinity,
-      child: TextButton(
-
-        onPressed: () => _checkGps(chk),
-
-        child: Text(
-          'Siguiente',
-          style: TextStyle(
-            color: MiUpcAppConfig.colorBarras,
-            letterSpacing: 1.5,
-            fontSize: 18.0,
-            fontWeight: FontWeight.bold,
-            fontFamily: 'OpenSans',
+      child: Column(
+        children: [
+          TextButton(
+            onPressed: () => _checkGps(chk),
+            child: Text(
+              'Siguiente',
+              style: TextStyle(
+                color: MiUpcAppConfig.colorBarras,
+                letterSpacing: 1.5,
+                fontSize: 18.0,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'OpenSans',
+              ),
+            ),
           ),
-        ),
+          TextButton(
+            onPressed: () => registroUsuModFalse(),
+            child: Text(
+              'No Registrarme',
+              style: TextStyle(
+                color: MiUpcAppConfig.colorBarras,
+                letterSpacing: 1.5,
+                fontSize: 18.0,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'OpenSans',
+              ),
+            ),
+          )
+        ],
       ),
     );
   }
-  Future _checkGps(bool c) async {
 
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => VerificarGpsPage(
-                pantalla: MiUpcLoginPage())));
+  registroUsuModFalse() async {
+    final prefs = new MiUpcPreferenciasUsuario();
 
+    if (prefs.getnombreUsuarioMiUpc().length > 4) {
+      print("ssisisisisisi");
+      Navigator.pushReplacementNamed(context, MiUpcAppConfig.menuPrincipalPage);
+      return;
+    }
 
+    String json =
+        '{"datoPer":["Correcto","JAIRO POZO CANACUAN","10000","146270"],"code":"0"}';
+
+    RegistroUsuarioModel registroUsuarioModel =
+        registroUsuarioModelFromJson(json);
+
+    List<String> datosRegistro = registroUsuarioModel.datoPer;
+
+    String nombres = datosRegistro[1].toString();
+
+    String id = datosRegistro[2].toString();
+    String idGenPersona = datosRegistro[3].toString();
+
+    prefs.setDatosUser(
+        idGenPersonaMiUpc: idGenPersona,
+        nombreUser: "",
+        cedulaMiUpcV: "",
+        emailMiUpcV: "",
+        nombresMiUpcV: "",
+        celularMiUpc: "",
+        idUsuarioMiUpc: id,
+        imeiMiUpc: "",
+        isnacionalMiUpc: true);
+
+    Navigator.pushReplacementNamed(context, MiUpcAppConfig.menuPrincipalPage);
   }
 
+  Future _checkGps(bool c) async {
+    Navigator.pushReplacementNamed(context, MiUpcAppConfig.LoginPage);
+
+    /*Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                VerificarGpsPage(pantalla: MiUpcLoginPage())));*/
+  }
 }

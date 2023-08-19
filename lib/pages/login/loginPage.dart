@@ -27,9 +27,11 @@ class _LoginPageState extends State<LoginPage> {
     super.initState();
     UtilidadesUtil.getTheme();
 
+    print("LoginPage - elecciones");
+
     //cambia el color de texto de barra superios del telefono
-  /*  controllerUser.text = 'cpfn1206762401';
-    controllerPass.text = 'freddyNCP1990';*/
+    /*controllerUser.text = 'pcjf0401477963';
+    controllerPass.text = 'David2010..';*/
 
     if (!prefs.getAppInicial()) {
       wgLoginUserPass = true;
@@ -41,11 +43,8 @@ class _LoginPageState extends State<LoginPage> {
     bool result = false;
     print("si es ${AppConfig.isProduccion}");
     if (AppConfig.isProduccion) {
-
       if (user == AppConfig.userTestGoogle &&
           pass == AppConfig.passTestGoogle) {
-
-
         AppConfig.ambiente = Host.hostPruebas;
 
         print("ambiente es ${AppConfig.ambiente}");
@@ -89,7 +88,6 @@ class _LoginPageState extends State<LoginPage> {
         });
 
         if (int.parse(datosUser.idGenUsuario) > 0) {
-
           _UserProvider.setUser = datosUser;
           if (testGoogle) {
             InciarPantalla(datosUser.actualizarApp);
@@ -187,12 +185,15 @@ class _LoginPageState extends State<LoginPage> {
       //No necesita comprobacion de gps
       /* UtilidadesUtil.pantallasAbrirNuevaCerrarTodas(
           context: context, pantalla: AppConfig.pantallaProcesosOperativos);*/
+      UtilidadesUtil.pantallasAbrirNuevaCerrarTodas(
+          context: context,
+          pantalla: AppConfig.pantallaVerificarOperativoRecintoAbierto);
 
-      Navigator.push(
+      /* Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => VerificarGpsPage(
-                  pantalla: VerificaOpertaivoRecintoAbiertoPage())));
+                  pantalla: VerificaOpertaivoRecintoAbiertoPage())));*/
 
       /*Navigator.pushReplacementNamed(
               context, AppConfig.pantallaMenuRecintoElectoral);*/

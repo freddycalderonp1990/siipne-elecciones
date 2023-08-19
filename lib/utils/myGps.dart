@@ -8,12 +8,19 @@ import 'package:siipnemovil2/widgets/customWidgets.dart';
 
 import '../appConfig.dart';
 
-
 class myGps extends StatefulWidget {
   final Widget pantalla;
   final bool cerrarTodasPantallas;
+  final String msj;
+  final bool isElecciones;
 
-  const myGps({Key key, this.pantalla, this.cerrarTodasPantallas=false}) : super(key: key);
+  const myGps(
+      {Key key,
+      this.msj = '',
+      this.isElecciones,
+      this.pantalla,
+      this.cerrarTodasPantallas = false})
+      : super(key: key);
 
   @override
   _myGpsState createState() => _myGpsState();
@@ -31,6 +38,8 @@ class _myGpsState extends State<myGps> {
   @override
   Widget build(BuildContext context) {
     return LoadingPage(
+      isElecciones: widget.isElecciones,
+      msj: widget.msj,
       pantalla: widget.pantalla,
       cerrarTodasPantallas: widget.cerrarTodasPantallas,
     );
@@ -45,8 +54,15 @@ class LoadingPage extends StatefulWidget {
   final Widget pantalla;
 
   final bool cerrarTodasPantallas;
+  final String msj;
+  final bool isElecciones;
 
-  const LoadingPage({Key key, this.pantalla, this.cerrarTodasPantallas = false})
+  const LoadingPage(
+      {Key key,
+      this.msj = "",
+      this.isElecciones = true,
+      this.pantalla,
+      this.cerrarTodasPantallas = false})
       : super(key: key);
 
   @override
@@ -95,7 +111,8 @@ class _LoadingPageState extends State<LoadingPage> with WidgetsBindingObserver {
     final responsive = ResponsiveUtil(context);
 
     return WorkAreaPageWidget(
-      btnAtras: true,
+
+      btnAtras: false,
       title: "GPS",
       contenido: [
         FutureBuilder(
@@ -106,8 +123,19 @@ class _LoadingPageState extends State<LoadingPage> with WidgetsBindingObserver {
 
             if (snapshot.hasData) {
               if (snapshot.data == '0') {
-                String msj =
-                    'Necesitamos acceder a su ubicación por favor active el GPS para continuar.';
+                String msj = "";
+
+                if (widget.msj.length > 0) {
+                  msj = widget.msj;
+                }
+
+                msj = msj +
+                    'La aplicación necesita acceder a tu ubicación para:\n\n'
+                        'Verificar los operativos abiertos cercanos a tu ubicación.\n'
+                        'Mostrarte los Recintos Electorales o Unidades Policiales según la ubicación donde te encuentres.\n'
+                        'Visualizar las UPC que se encuentren próximas a tu ubicación.\n\n'
+                        'Por favor active el GPS para continuar.';
+
                 return ContenedorDesingWidget(
                     margin: EdgeInsets.all(10),
                     anchoPorce: anchoContenedor,
@@ -162,28 +190,6 @@ class _LoadingPageState extends State<LoadingPage> with WidgetsBindingObserver {
         )
       ],
     );
-
-    return Scaffold(
-      body: FutureBuilder(
-        future: this.checkGpsYLocation(context),
-        //al cargar la pantalla se procede a verificar el acceso al gps
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          //captura la data que retorna el metodo checkGpsYLocation
-          print(snapshot.data);
-
-          if (snapshot.hasData) {
-            return Center(
-                child: Row(
-              children: [
-                Text(snapshot.data),
-              ],
-            ));
-          } else {
-            return Center(child: CircularProgressIndicator(strokeWidth: 2));
-          }
-        },
-      ),
-    );
   }
 
   Future checkGpsYLocation(BuildContext context) async {
@@ -219,12 +225,25 @@ class _LoadingPageState extends State<LoadingPage> with WidgetsBindingObserver {
             navegarMapaFadeIn(
                 context,
                 AccesoGpsPage(
+                  isElecciones: widget.isElecciones,
+                  msj: widget.msj,
                   pantalla: widget.pantalla,
                   cerrarTodasPantallas: widget.cerrarTodasPantallas,
-
                 )));
       }
-      return 'Necesitamos obtener acceso al GPS, para que la aplicación funcione de manera adecuada.';
+      String msj = "";
+
+      if (widget.msj.length > 0) {
+        msj = widget.msj;
+      }
+
+      msj = msj +
+          'La aplicación necesita acceder a tu ubicación para:\n\n'
+              'Verificar los operativos abiertos cercanos a tu ubicación.\n'
+              'Mostrarte los Recintos Electorales o Unidades Policiales según la ubicación donde te encuentres.\n'
+              'Visualizar las UPC que se encuentren próximas a tu ubicación.\n';
+
+      return msj;
     } else {
       //0 = Necesitamos acceder a su ubicación por favor active el GPS para continuar.
       return '0';
@@ -236,11 +255,14 @@ class AccesoGpsPage extends StatefulWidget {
   final Widget pantalla;
 
   final bool cerrarTodasPantallas;
+  final String msj;
+  final bool isElecciones;
 
   const AccesoGpsPage({
     Key key,
+    this.msj = "",
+    this.isElecciones = true,
     this.pantalla,
-
     this.cerrarTodasPantallas = false,
   }) : super(key: key);
 
@@ -284,11 +306,11 @@ class _AccesoGpsPageState extends State<AccesoGpsPage>
         //Navigator.pushReplacementNamed(context, 'loading');
         //como el usuario ya le dio permisos de manera manual se redirige al loading
 
-        if(widget. cerrarTodasPantallas){
+        if (widget.cerrarTodasPantallas) {
           UtilidadesUtil.pantallasAbrirNuevaCerrarTodasWidget(
-              context: context, pantalla:navegarMapaFadeIn(context, widget.pantalla));
-        }
-        else {
+              context: context,
+              pantalla: navegarMapaFadeIn(context, widget.pantalla));
+        } else {
           Navigator.pushReplacement(
               context,
               navegarMapaFadeIn(
@@ -305,34 +327,51 @@ class _AccesoGpsPageState extends State<AccesoGpsPage>
   Widget build(BuildContext context) {
     final responsive = ResponsiveUtil(context);
 
+    String msj = "";
+
+    if (widget.msj.length > 0) {
+      msj = widget.msj;
+      print("siiiiii");
+    }
+
     return WorkAreaPageWidget(
-      btnAtras: true,
+      btnAtras: false,
       title: "GPS",
       contenido: [
         ContenedorDesingWidget(
-            margin: EdgeInsets.all(10),
+            margin: EdgeInsets.all(5),
             anchoPorce: anchoContenedor,
             child: Container(
-              margin: EdgeInsets.all(10),
+              margin: EdgeInsets.all(5),
               child: Column(
                 children: [
-                  Text(
-                    "Necesitamos obtener acceso al GPS, para que la aplicación funcione de manera adecuada.",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Colors.black, fontSize: responsive.anchoP(5)),
+                  DetalleTextWidget(
+                    todoElAncho: true,
+                    detalle: msj,
                   ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  TituloTextWidget(
+                    textAlign: TextAlign.center,
+                    title:
+                        "La aplicación necesita acceder a tu ubicación para:",
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  widget.isElecciones ? getWdMsjElecciones() : getWdMsjMiUpc(),
                   Image.asset(
                     AppConfig.imgLocationAccess,
-                    height: responsive.altoP(40),
+                    height: responsive.diagonalP(15),
                   ),
                   SizedBox(
                     height: responsive.altoP(4),
                   ),
                   BotonesWidget(
-                    iconData: Icons.perm_data_setting,
+                    iconData: Icons.navigate_next,
                     padding: EdgeInsets.symmetric(horizontal: 10),
-                    title: "SOLICITAR ACCESO",
+                    title: "Continuar",
                     onPressed: () async {
                       popup = true;
                       //Muestra al usuario la pantalla de los permisos
@@ -350,17 +389,50 @@ class _AccesoGpsPageState extends State<AccesoGpsPage>
     );
   }
 
+  Widget getWdMsjElecciones() {
+    return Column(
+      children: [
+        TituloDetalleTextWidget(
+          title: "1)",
+          detalle: "Verificar los operativos abiertos cercanos a tu ubicación.",
+        ),
+        TituloDetalleTextWidget(
+          title: "2)",
+          detalle:
+              "Mostrar los Recintos Electorales o Unidades Policiales según la ubicación donde te encuentres.",
+        ),
+        TituloDetalleTextWidget(
+          title: "3)",
+          detalle:
+              "Registrar Novedades y Eventos en el lugar donde ocurrieron..",
+        ),
+      ],
+    );
+  }
+
+  Widget getWdMsjMiUpc() {
+    return Column(
+      children: [
+        TituloDetalleTextWidget(
+          title: "1)",
+          detalle:
+              "Visualizar las UPC que se encuentren próximas a tu ubicación.",
+        ),
+      ],
+    );
+  }
+
   Future accesoGPS(PermissionStatus status) async {
     print(status);
 
     switch (status) {
       case PermissionStatus.granted:
         //aceptado
-        if(widget. cerrarTodasPantallas){
+        if (widget.cerrarTodasPantallas) {
           UtilidadesUtil.pantallasAbrirNuevaCerrarTodasWidget(
-              context: context, pantalla:navegarMapaFadeIn(context, widget.pantalla));
-        }
-        else {
+              context: context,
+              pantalla: navegarMapaFadeIn(context, widget.pantalla));
+        } else {
           await Navigator.pushReplacement(
               context, navegarMapaFadeIn(context, widget.pantalla));
         }

@@ -278,10 +278,13 @@ class _RecElecAbrirState extends State<RecElecAbrir> {
               telefono: controllerTelefono.text);
 
       if (_abrirRecintoElectoral.estado == "A") {
-        DialogosWidget.alert(context,
+        DialogosWidget.alert(context, msjBtn: "Contactar", onTap: () {
+          Navigator.of(context).pop();
+          UtilidadesUtil.lanzarLlamada(_abrirRecintoElectoral.telefono);
+        },
             title: VariablesUtil.INFORMACION,
-            message: _abrirRecintoElectoral.apenom +
-                "\nYa existe un Código asignado ${_abrirRecintoElectoral.idDgoCreaOpReci} al Recinto Electoral \n\n" +
+            message: _UserProvider.getUser.apenom +
+                "\n\n\nYa existe un Código asignado ${_abrirRecintoElectoral.idDgoCreaOpReci} al Recinto Electoral \n\n" +
                 recintoElectoral +
                 "\nFECHA INICIO: " +
                 _abrirRecintoElectoral.fechaIni +
@@ -360,8 +363,7 @@ class _RecElecAbrirState extends State<RecElecAbrir> {
                           "Seleccione la Unidad a la que pertenece el Servidor Policial ",
                       textAlign: TextAlign.center,
                     ),
-
-                     ComboConBusqueda(
+                    ComboConBusqueda(
                       selectValue: recintoUnidadesPoliciales,
                       title: VariablesUtil.UnidadPolicial,
                       searchHint:

@@ -29,6 +29,7 @@ class _VerificaOpertaivoRecintoAbiertoPageState
   void initState() {
     // TODO: implement initState
     super.initState();
+    print("VerificaOpertaivoRecintoAbiertoPage - elecciones");
     UtilidadesUtil
         .getTheme(); //cambia el color de texto de barra superios del telefono
   }
@@ -83,7 +84,8 @@ class _VerificaOpertaivoRecintoAbiertoPageState
         encargadoRecinto = _RecintosElectoralesAbiertos.encargado;
         idDgoReciElect = _RecintosElectoralesAbiertos.idDgoReciElect;
         _RecintoProvider.setRecinto(_RecintosElectoralesAbiertos);
-        print('Set datos Recinto ${_RecintoProvider.getRecintoAbierto.idDgoReciElect}');
+        print(
+            'Set datos Recinto ${_RecintoProvider.getRecintoAbierto.idDgoReciElect}');
         //Hay Abierto Verifico si es Recinto
         if (_RecintosElectoralesAbiertos.isRecinto) {
           //Menu Recintos Electorales
@@ -100,6 +102,7 @@ class _VerificaOpertaivoRecintoAbiertoPageState
       }
     } catch (e) {}
   }
+
   _cerrarSession() {
     //Aquí (Route <dynamic> route) => false se asegurará de que se eliminen todas las rutas antes de hacer push de la ruta .
     Navigator.of(context).pushNamedAndRemoveUntil(
