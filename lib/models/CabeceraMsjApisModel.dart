@@ -18,9 +18,9 @@ class CabeceraMsjApisModel {
   Map<String, dynamic> data;
 
   factory CabeceraMsjApisModel.fromJson(Map<String, dynamic> json) => CabeceraMsjApisModel(
-    success: json["success"] == null ? null : json["success"],
-    statusCode: json["status_code"] == null ? null : json["status_code"],
-    message: json["message"] == null ? null : json["message"],
+    success: ParseModel.parseToBool(json["success"]),
+    statusCode: ParseModel.parseToInt(json["status_code"] ),
+    message: ParseModel.parseToString(json["message"] ),
     data: json["data"] == null ? null : json["data"],
   );
 

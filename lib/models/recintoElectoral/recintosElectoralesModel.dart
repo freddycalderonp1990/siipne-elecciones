@@ -78,20 +78,20 @@ class RecintosElectoral {
     nomRecinto = nomRecinto + dist;
 
     return RecintosElectoral(
-      numElectores: json["numElectores"] == null ? null : json["numElectores"],
-      numJuntMascu: json["numJuntMascu"] == null ? null : json["numJuntMascu"],
-      numJuntFeme: json["numJuntFeme"] == null ? null : json["numJuntFeme"],
+      numElectores: ParseModel.parseToString(json["numElectores"] ),
+      numJuntMascu: ParseModel.parseToString(json["numJuntMascu"] ),
+      numJuntFeme: ParseModel.parseToString(json["numJuntFeme"] ),
       idDgoReciElect: ParseModel.parseToString(json["idDgoReciElect"]),
       idGenGeoSenplades: ParseModel.parseToString(json["idGenGeoSenplades"]),
       idGenDivPolitica: ParseModel.parseToString(json["idGenDivPolitica"]),
       codRecintoElec: ParseModel.parseToString(json["codRecintoElec"]),
       nomRecintoElec: nomRecinto,
-      direcRecintoElec: json["direcRecintoElec"] == null ? null : json["direcRecintoElec"],
-      latitud: json["latitud"] == null ? null : json["latitud"],
-      longitud: json["longitud"] == null ? null : json["longitud"],
+      direcRecintoElec: ParseModel.parseToString(json["direcRecintoElec"] ),
+      latitud: ParseModel.parseToString(json["latitud"] ),
+      longitud: ParseModel.parseToString(json["longitud"] ),
       usuario: ParseModel.parseToString(json["usuario"]),
-      fecha: json["fecha"] == null ? null : json["fecha"],
-      ip: json["ip"] == null ? null : json["ip"],
+      fecha: ParseModel.parseToString(json["fecha"]),
+      ip: ParseModel.parseToString(json["ip"] ),
       idDgoTipoEje:  ParseModel.parseToString(json["idDgoTipoEje"]),
       distance:  ParseModel.parseToString(json["distance"]),
     );

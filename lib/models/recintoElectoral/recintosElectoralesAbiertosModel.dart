@@ -75,20 +75,20 @@ class RecintosElectoralesAbiertos {
   factory RecintosElectoralesAbiertos.fromJson(Map<String, dynamic> json) =>
       RecintosElectoralesAbiertos(
         idDgoProcElec: ParseModel.parseToString(json["idDgoProcElec"]),
-        descProcElecc: json["descProcElecc"] == null ? null : json["descProcElecc"],
+        descProcElecc: ParseModel.parseToString(json["descProcElecc"]),
         idDgoTipoEje: ParseModel.parseToString(json["idDgoTipoEje"]),
         idDgoCreaOpReci: ParseModel.parseToString(json["idDgoCreaOpReci"]),
         idDgoPerAsigOpe: ParseModel.parseToString(json["idDgoPerAsigOpe"]),
         codigoRecinto: ParseModel.parseToString(json["codigoRecinto"]),
-        fechaIni: json["fechaIni"] == null ? null : json["fechaIni"],
+        fechaIni: ParseModel.parseToString(json["fechaIni"] ),
         nomRecintoElec:
-            json["nomRecintoElec"] == null ? null : json["nomRecintoElec"],
+  ParseModel.parseToString(json["nomRecintoElec"] ),
         idDgoReciElect:
         ParseModel.parseToString(json["idDgoReciElect"]),
-        encargado: json["encargado"] == null ? null : json["encargado"],
-        documento: json["documento"] == null ? null : json["documento"],
-        cargo: json["cargo"] == null ? null : json["cargo"],
-        descripcion: json["descripcion"] == null ? null : json["descripcion"],
+        encargado: ParseModel.parseToString(json["encargado"]),
+        documento: ParseModel.parseToString(json["documento"] ),
+        cargo: ParseModel.parseToString(json["cargo"] ),
+        descripcion: ParseModel.parseToString(json["descripcion"] ),
         isJefe: json["cargo"] == null
             ? null
             : json["cargo"] == "J"

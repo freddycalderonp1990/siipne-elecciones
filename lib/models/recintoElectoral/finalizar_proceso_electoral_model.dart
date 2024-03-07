@@ -63,8 +63,8 @@ class datosFinalizarProceso {
   String toJson() => json.encode(toMap());
 
   factory datosFinalizarProceso.fromMap(Map<String, dynamic> json) => datosFinalizarProceso(
-    horaServer: json["horaServer"],
-    horaValidate: json["horaValidate"],
+    horaServer: ParseModel.parseToString(json["horaServer"]),
+    horaValidate: ParseModel.parseToString(json["horaValidate"]),
   );
 
   Map<String, dynamic> toMap() => {

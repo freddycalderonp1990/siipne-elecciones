@@ -30,30 +30,21 @@ class NovedadesElectorale {
     this.dgoIdDgoNovedadesElect,
     this.descripcion,
     this.idGenEstado,
-    this.delLog,
-    this.usuario,
-    this.fecha,
-    this.ip,
+
   });
 
   String idDgoNovedadesElect;
   String dgoIdDgoNovedadesElect;
   String descripcion;
   String idGenEstado;
-  String delLog;
-  String usuario;
-  String fecha;
-  String ip;
+
 
   factory NovedadesElectorale.fromJson(Map<String, dynamic> json) => NovedadesElectorale(
     idDgoNovedadesElect: ParseModel.parseToString(json["idDgoNovedadesElect"]),
     dgoIdDgoNovedadesElect: ParseModel.parseToString(json["dgo_idDgoNovedadesElect"]),
-    descripcion: json["descripcion"] == null ? null : json["descripcion"],
+    descripcion: ParseModel.parseToString(json["descripcion"] ),
     idGenEstado: ParseModel.parseToString(json["idGenEstado"]),
-    delLog: json["delLog"] == null ? null : json["delLog"],
-    usuario: ParseModel.parseToString(json["usuario"]),
-    fecha: json["fecha"] == null ? null : json["fecha"],
-    ip: json["ip"] == null ? null : json["ip"],
+
   );
 
   Map<String, dynamic> toJson() => {
@@ -61,9 +52,6 @@ class NovedadesElectorale {
     "dgo_idDgoNovedadesElect": dgoIdDgoNovedadesElect == null ? null : dgoIdDgoNovedadesElect,
     "descripcion": descripcion == null ? null : descripcion,
     "idGenEstado": idGenEstado == null ? null : idGenEstado,
-    "delLog": delLog == null ? null : delLog,
-    "usuario": usuario == null ? null : usuario,
-    "fecha": fecha == null ? null : fecha,
-    "ip": ip == null ? null : ip,
+
   };
 }

@@ -187,7 +187,16 @@ class UtilidadesUtil {
     String versionName = await getVersionName();
     String versionCode = await getVersionCode();
 
-    String result = versionName + ' - ' + versionCode;
+
+    bool isAndroid = Platform.isAndroid;
+    bool isOs = Platform.isIOS;
+
+    String resultPl= "Android-Build-";
+    if (Platform.isIOS) {
+      resultPl = "iOS-Build-";
+    }
+
+    String result =resultPl+ versionName + '.' + versionCode;
 
     return result;
   }
@@ -278,6 +287,7 @@ class UtilidadesUtil {
     } else if (isOs) {
       result = "IOS";
     }
+
 
     return "PLATAFORMA " + result;
   }

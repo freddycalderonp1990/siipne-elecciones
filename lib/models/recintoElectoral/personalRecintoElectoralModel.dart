@@ -46,14 +46,14 @@ class PersonalRecintoElectoral {
   String idDgoPerAsigOpe;
 
   factory PersonalRecintoElectoral.fromJson(Map<String, dynamic> json) => PersonalRecintoElectoral(
-    cargo: json["cargo"] == null ? null : json["cargo"],
+    cargo: ParseModel.parseToString(json["cargo"]) ,
     idDgoCreaOpReci: ParseModel.parseToString(json["idDgoCreaOpReci"]),
-    nomRecintoElec: json["nomRecintoElec"] == null ? null : json["nomRecintoElec"],
-    recintoEstado: json["recintoEstado"] == null ? null : json["recintoEstado"],
-    fechaIni: json["fechaIni"] == null ? null : json["fechaIni"],
-    fechaFin: json["FechaFin"] == null ? null : json["FechaFin"],
-    personal: json["personal"] == null ? null : json["personal"],
-    estadoPersonal: json["estado_personal"] == null ? null : json["estado_personal"],
+    nomRecintoElec: ParseModel.parseToString(json["nomRecintoElec"]),
+    recintoEstado: ParseModel.parseToString(json["recintoEstado"]) ,
+    fechaIni: ParseModel.parseToString(json["fechaIni"]),
+    fechaFin: ParseModel.parseToString(json["FechaFin"] ),
+    personal: ParseModel.parseToString(json["personal"] ),
+    estadoPersonal: ParseModel.parseToString(json["estado_personal"] ),
     idDgoPerAsigOpe: ParseModel.parseToString(json["idDgoPerAsigOpe"]),
   );
 

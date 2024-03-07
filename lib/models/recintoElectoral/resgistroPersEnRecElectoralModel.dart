@@ -43,11 +43,11 @@ class ResgistroPersEnRecElectoral {
 
   factory ResgistroPersEnRecElectoral.fromJson(Map<String, dynamic> json) => ResgistroPersEnRecElectoral(
     idDgoPerAsigOpe: ParseModel.parseToString(json["idDgoPerAsigOpe"]),
-    codigoRecinto: json["codigoRecinto"] == null ? null : json["codigoRecinto"],
-    fechaIni: json["fechaIni"] == null ? null : json["fechaIni"],
-    nomRecintoElec: json["nomRecintoElec"] == null ? null : json["nomRecintoElec"],
-    encargado: json["encargado"] == null ? null : json["encargado"],
-    documento: json["documento"] == null ? null : json["documento"],
+    codigoRecinto: ParseModel.parseToString(json["codigoRecinto"]),
+    fechaIni: ParseModel.parseToString(json["fechaIni"]),
+    nomRecintoElec: ParseModel.parseToString(json["nomRecintoElec"]) ,
+    encargado: ParseModel.parseToString(json["encargado"]) ,
+    documento: ParseModel.parseToString(json["documento"]),
   );
 
   Map<String, dynamic> toJson() => {

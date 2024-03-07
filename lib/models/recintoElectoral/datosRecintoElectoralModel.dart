@@ -45,11 +45,11 @@ class DatosRecintoElectoralClass {
 
   factory DatosRecintoElectoralClass.fromJson(Map<String, dynamic> json) => DatosRecintoElectoralClass(
     idDgoReciElect: ParseModel.parseToString(json["idDgoReciElect"]),
-    nomRecintoElec: json["nomRecintoElec"] == null ? null : json["nomRecintoElec"],
+    nomRecintoElec: ParseModel.parseToString(json["nomRecintoElec"] ),
     idDgoTipoEje: ParseModel.parseToString(json["idDgoTipoEje"]),
-    encargado: json["encargado"] == null ? null : json["encargado"],
-    documento: json["documento"] == null ? null : json["documento"],
-    sexoPerson: json["sexoPerson"] == null ? null : json["sexoPerson"],
+    encargado: ParseModel.parseToString(json["encargado"]),
+    documento: ParseModel.parseToString(json["documento"] ),
+    sexoPerson: ParseModel.parseToString(json["sexoPerson"] ),
 
   );
 

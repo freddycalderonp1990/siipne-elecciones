@@ -32,9 +32,7 @@ class Canton {
     this.idGenTipoDivision,
     this.descripcion,
     this.sigla,
-    this.usuario,
-    this.fecha,
-    this.ip,
+
   });
 
   String idGenDivPolitica;
@@ -42,9 +40,7 @@ class Canton {
   String idGenTipoDivision;
   String descripcion;
   String sigla;
-  String usuario;
-  String fecha;
-  String ip;
+
 
   factory Canton.fromJson(Map<String, dynamic> json) => Canton(
     idGenDivPolitica: json["idGenDivPolitica"] == null ? null : json["idGenDivPolitica"],
@@ -52,9 +48,7 @@ class Canton {
     idGenTipoDivision: json["idGenTipoDivision"] == null ? null : json["idGenTipoDivision"],
     descripcion: json["descripcion"] == null ? null : json["descripcion"],
     sigla: json["sigla"] == null ? null : json["sigla"],
-    usuario: json["usuario"] == null ? null : json["usuario"],
-    fecha: json["fecha"] == null ? null : json["fecha"],
-    ip: json["ip"] == null ? null : json["ip"],
+
   );
 
   Map<String, dynamic> toJson() => {
@@ -63,8 +57,6 @@ class Canton {
     "idGenTipoDivision": idGenTipoDivision == null ? null : idGenTipoDivision,
     "descripcion": descripcion == null ? null : descripcion,
     "sigla": sigla == null ? null : sigla,
-    "usuario": usuario == null ? null : usuario,
-    "fecha": fecha == null ? null : fecha,
-    "ip": ip == null ? null : ip,
+
   };
 }

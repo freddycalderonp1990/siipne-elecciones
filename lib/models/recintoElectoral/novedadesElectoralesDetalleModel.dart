@@ -45,14 +45,14 @@ class NovedadesElectoralesDetalle {
 
   factory NovedadesElectoralesDetalle.fromJson(Map<String, dynamic> json) => NovedadesElectoralesDetalle(
     idDgoCreaOpReci: ParseModel.parseToString(json["idDgoCreaOpReci"]),
-    nomRecintoElec: json["nomRecintoElec"] == null ? null : json["nomRecintoElec"],
-    cargo: json["cargo"] == null ? null : json["cargo"],
-    reporta: json["reporta"] == null ? null : json["reporta"],
-    fechaIni: json["fechaIni"] == null ? null : json["fechaIni"],
-    tipo: json["tipo"] == null ? null : json["tipo"],
-    novedad: json["novedad"] == null ? null : json["novedad"],
-    observacion: json["observacion"] == null ? null : json["observacion"],
-    fechaNovedad: json["fechaNovedad"] == null ? null : json["fechaNovedad"],
+    nomRecintoElec: ParseModel.parseToString(json["nomRecintoElec"] ),
+    cargo: ParseModel.parseToString(json["cargo"] ),
+    reporta: ParseModel.parseToString(json["reporta"] ),
+    fechaIni: ParseModel.parseToString(json["fechaIni"]),
+    tipo: ParseModel.parseToString(json["tipo"]),
+    novedad: ParseModel.parseToString(json["novedad"] ),
+    observacion: ParseModel.parseToString(json["observacion"] ),
+    fechaNovedad: ParseModel.parseToString(json["fechaNovedad"] ),
   );
 
   Map<String, dynamic> toJson() => {

@@ -127,9 +127,9 @@ class _WorkAreaPageWidgetState extends State<WorkAreaPageWidget> {
                                                   ? TextSombrasWidget(
                                                 colorTexto: Colors.white,
                                                       colorSombra: Colors.black45,
-                                                      title: 'Versión 2: ' +
+                                                      title: 'V.' +
                                                           version +
-                                                          ' ' +
+                                                          '-' +
                                                           AppConfig.ambiente,
                                                     )
                                                   : Container()
