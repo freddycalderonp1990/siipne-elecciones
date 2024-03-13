@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+
 import 'package:provider/provider.dart';
 import 'package:siipnemovil2/config/app_colors.dart';
 import 'package:siipnemovil2/routes.dart';
@@ -20,6 +21,9 @@ import 'utils/utils.dart';
 void main() async {
 // add this, and it should be the first line in main method
   WidgetsFlutterBinding.ensureInitialized();
+
+
+
 
   final prefs = new PreferenciasUsuario();
   await prefs.initPrefs();

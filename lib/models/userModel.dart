@@ -51,6 +51,7 @@ class Usuario {
 
   factory Usuario.fromJson(Map<String, dynamic> json) {
     String img = json["foto"];
+
     Uint8List imgDecode = null;
     String imgDefault;
     imgDefault=AppConfig.imgNoImagenPolicia;
@@ -63,14 +64,14 @@ class Usuario {
       print(decodedBytes);
       imgDecode = decodedBytes;
     }
-print(json["idGenPersona"]);
+
 
     return Usuario(
         idGenUsuario:  ParseModel.parseToString(json["idGenUsuario"]),
         idGenPersona: ParseModel.parseToString(json["idGenPersona"]),
         nombreUsuario:
             json["nombreUsuario"] == null ? "null" : json["nombreUsuario"],
-        apenom: json["apenom"] == null ? "null" : json["apenom"],
+        apenom: ParseModel.parseToString(json["apenom"]),
         documento: json["documento"] == null ? "null" : json["documento"],
         fotoString: json["foto"] == null ? imgDefault : json["foto"],
         actualizarApp:

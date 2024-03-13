@@ -52,6 +52,7 @@ class _WorkAreaPageWidgetState extends State<WorkAreaPageWidget> {
   Widget build(BuildContext context) {
     final responsive = ResponsiveUtil(context);
 
+
     return Scaffold(
         floatingActionButtonLocation: widget.ubicacionBtnFinal,
         floatingActionButton: widget.widgetBtnFinal,
@@ -61,6 +62,8 @@ class _WorkAreaPageWidgetState extends State<WorkAreaPageWidget> {
             },
             child: Stack(
               children: [
+              //  TestAdd(),
+
                 Container(
                   height: responsive.alto,
                   width: responsive.ancho,
@@ -154,7 +157,8 @@ class _WorkAreaPageWidgetState extends State<WorkAreaPageWidget> {
                 ),
                 CargandoWidget(
                   mostrar: widget.peticionServer,
-                )
+                ),
+
               ],
             )));
   }

@@ -14,7 +14,7 @@ class Host {
 
         break;
       case hostPruebas:
-        url = "siipne3wv2.policia.gob.ec"; //Pruebas
+        url = "test.policia.gob.ec"; //Pruebas
 
         break;
       case hostProduccion:

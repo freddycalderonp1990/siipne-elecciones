@@ -50,6 +50,8 @@ dependencies:
 
 
 
+
+
   #MI UPC
   connectivity: ^0.4.8+6 #Prueba de coneccion a internet
   android_intent: ^0.3.6+12 #Permisos usuario

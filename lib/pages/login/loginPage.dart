@@ -248,6 +248,7 @@ class _LoginPageState extends State<LoginPage> {
 
     return Stack(
       children: [
+
         wg,
         UtilidadesUtil.plataformaIsAndroid()
             ? Container()
