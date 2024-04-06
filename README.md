@@ -1,3 +1,17 @@
+#Solucion Cuando no compila para subir en Ios
+error:Command PhaseScriptExecution failed with a nonzero exit code
+solucion:
+ios/Pods/Target Support Files/Pods-Runner/Pods-Runner-frameworks.sh
+Before
+
+source="$(readlink "${source}")"
+
+Change this to:
+
+source="$(readlink -f "${source}")"
+
+
+
 # siipnemovil2
 
 Nueva version del siipne movil
