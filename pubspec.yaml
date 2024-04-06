@@ -51,7 +51,6 @@ dependencies:
 
 
 
-
   #MI UPC
   connectivity: ^0.4.8+6 #Prueba de coneccion a internet
   android_intent: ^0.3.6+12 #Permisos usuario
@@ -59,6 +58,15 @@ dependencies:
   device_info: ^0.4.2+4 #Info del celular
   get_mac: ^0.0.1 #obtener imei y mac del movil
   share: ^0.6.3 #Compartir aplicacion
+  # Dependencia para dispositivos Android menores a 12
+
+
+
+
+
+
+
+
 
 
 
@@ -77,6 +85,9 @@ flutter_icons:
 #  intl: ^0.17.0-nullsafety.2
 dependency_overrides:
   intl: ^0.18.1
+
+
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

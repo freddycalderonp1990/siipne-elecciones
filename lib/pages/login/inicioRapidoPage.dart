@@ -186,6 +186,8 @@ class _InicioRapidoPageState extends State<InicioRapidoPage> {
         img: AppConfig.icon_huella, onTap: () async {
       bool result = await BiometricUtil.biometrico();
       if (result) {
+
+
         _EventoLogin(
           user: prefs.getUser(),
           pass: prefs.getPass(),

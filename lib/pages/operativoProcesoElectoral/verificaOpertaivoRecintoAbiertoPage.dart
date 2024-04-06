@@ -46,6 +46,7 @@ class _VerificaOpertaivoRecintoAbiertoPageState
 
 
 
+
       List<DatosProcesoImg> list =
       await _ProcesosOperativosApi.getProcesosImg(
           context: context);

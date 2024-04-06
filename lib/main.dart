@@ -18,6 +18,8 @@ import 'providers/providers.dart';
 import 'sharePreferences/preferenciasUsuario.dart';
 import 'utils/utils.dart';
 
+
+
 void main() async {
 // add this, and it should be the first line in main method
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,6 +40,8 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
+
+
   // This widget is the root of your application.
   final prefsSelectApp = new PreferenciasSelectApp();
   @override

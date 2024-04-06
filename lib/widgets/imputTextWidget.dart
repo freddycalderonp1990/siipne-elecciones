@@ -16,7 +16,6 @@ class ImputTextWidget extends StatefulWidget {
 
   final String imgString;
 
-
   const ImputTextWidget({
     Key key,
     this.label,

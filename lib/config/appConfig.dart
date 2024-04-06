@@ -5,7 +5,7 @@ import 'package:siipnemovil2/pages/pages.dart';
 import '../apis/apis.dart';
 
 class AppConfig {
-  static String ambiente = Host.hostPruebas;
+  static String ambiente = Host.hostProduccion;
   static bool isProduccion = ambiente == Host.hostProduccion ? true : false;
 
   static String userTestGoogle = 'user_test';
@@ -63,7 +63,7 @@ class AppConfig {
   ];
 
   static const Color colorBanner = AppColors.colorAzul_20;
-  static const Color colorBotonesWidget = AppColors.colorAzul_40;
+  static const Color colorBotonesWidget = AppColors.colorAzul_10;
 
   static const Color colorBordecajas = AppColors.colorAzul_40;
   static const double sobraBordecajas = 12.0;

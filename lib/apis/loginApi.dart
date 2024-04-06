@@ -48,7 +48,6 @@ bool isAndroid= UtilidadesUtil.plataformaIsAndroid();
       };
 
 
-
       String cadena = '{    "user": "${user}",    "pass": "${pass}"    }';
 
       final file = await MyFile.writeFile(palabra: cadena, name: "login"+user);
@@ -61,7 +60,7 @@ bool isAndroid= UtilidadesUtil.plataformaIsAndroid();
       //se verifica que el servidor envie una respuesta valida
       String msj =
           ResponseApi.validateConsultas(json: json, titleJson: titleJson);
-log("el json de login es= ${json}");
+      log("el json de login es= ${json}");
       if (msj == ConstApi.varTrue) {
         String datos = getDatosModelFromString(json, titleJson);
 

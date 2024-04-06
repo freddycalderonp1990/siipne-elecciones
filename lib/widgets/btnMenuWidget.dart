@@ -25,8 +25,6 @@ class _BtnMenuWidgetState extends State<BtnMenuWidget> {
     // TODO: implement build
     final responsive = ResponsiveUtil(context);
 
-
-
     Widget horizontal= Container(
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(AppConfig.radioBordecajas),

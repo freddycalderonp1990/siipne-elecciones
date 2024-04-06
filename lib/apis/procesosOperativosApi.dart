@@ -42,6 +42,7 @@ class ProcesosOperativosApi {
 
   Future< List<DatosProcesoImg>> getProcesosImg({BuildContext context}) async {
     try {
+
       String titleJson = "procesosOperativosActivos";
       Map<String, String> parametros;
       parametros = {
@@ -54,15 +55,17 @@ class ProcesosOperativosApi {
       //se verifica que el servidor envie una respuesta valida
       String msj =
       ResponseApi.validateConsultas(json: json, titleJson: titleJson);
-
+      print("1 si existennnnnnnnnn");
       if (msj == ConstApi.varTrue) {
+        print("2 si existennnnnnnnnn");
 
         List<DatosProcesoImg> datos = procesosImgModelFromJson(json).procesosOperativosActivos.datosProcesoImg;
+        print("4 si existennnnnnnnnn");
         return datos;
 
       } else {
 
-
+        print("3 si existennnnnnnnnn");
         return [];
       }
     }  catch (e) {
