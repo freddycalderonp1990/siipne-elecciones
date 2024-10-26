@@ -5,8 +5,8 @@ import 'package:siipnemovil2/pages/pages.dart';
 import '../apis/apis.dart';
 
 class AppConfig {
-  static String ambiente = Host.hostProduccion;
-  static bool isProduccion = ambiente == Host.hostProduccion ? true : false;
+  static String ambiente = Host.hostDesarrollo;
+  static bool isProduccion = ambiente == Host.hostDesarrollo ? false : true;
 
   static String userTestGoogle = 'user_test';
   static String passTestGoogle = 'policiaecuador';

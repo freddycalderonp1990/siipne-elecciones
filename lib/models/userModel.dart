@@ -66,6 +66,8 @@ class Usuario {
     }
 
 
+
+
     return Usuario(
         idGenUsuario:  ParseModel.parseToString(json["idGenUsuario"]),
         idGenPersona: ParseModel.parseToString(json["idGenPersona"]),

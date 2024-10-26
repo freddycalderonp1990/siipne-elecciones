@@ -72,6 +72,7 @@ class _RecElecAbrirState extends State<RecElecAbrir> {
         responsive.isVertical() ? responsive.altoP(3) : responsive.anchoP(5);
 
     return WorkAreaPageWidget(
+
       imgFondo: AppConfig.imgFondoElecciones,
       btnAtras: true,
       peticionServer: _recintosElectorales.length > 0 ? peticionServer : true,
@@ -217,10 +218,15 @@ class _RecElecAbrirState extends State<RecElecAbrir> {
 
   _getRecintosElectorales() async {
     try {
+
+
+
       String latitud =
           _UserProvider.getUser.ubicacionSeleccionada.latitude.toString();
       String longitud =
           _UserProvider.getUser.ubicacionSeleccionada.longitude.toString();
+
+
 
       if (!cargaInicial) return;
 
@@ -289,6 +295,8 @@ class _RecElecAbrirState extends State<RecElecAbrir> {
               idDgoReciUnidadPolicial: idRecintoElectoral,
               telefono: controllerTelefono.text,
               idDgoTipoEje:ideje.toString());
+
+
 
       if (_abrirRecintoElectoral.estado == "A") {
         DialogosWidget.alertllamada(context, msjBtn: "Contactar", onTap: () {

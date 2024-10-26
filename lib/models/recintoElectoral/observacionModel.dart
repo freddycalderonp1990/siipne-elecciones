@@ -32,13 +32,19 @@ class ObservacionModel {
     this.descripcion,
     this.direccion,
     this.unidad,
-    this.numerico
+    this.numerico,
+    this.idDgoNovedadesElectPadre,
+    this.descNovedadesElect,
+    this.descNovedadesElectPadre
 
   });
 
 
 
   String idDgoNovedadesElect;
+  String idDgoNovedadesElectPadre;
+  String descNovedadesElectPadre;
+  String descNovedadesElect;
   String cedula;
   String numBoleta;
   String numCitacion;
@@ -79,6 +85,9 @@ class ObservacionModel {
     descripcion: ParseModel.parseToString(json["descripcion"] ),
     direccion: ParseModel.parseToString(json["direccion"] ),
     unidad: ParseModel.parseToString(json["unidad"]),
+    idDgoNovedadesElectPadre:ParseModel.parseToString(json["idDgoNovedadesElectPadre"]),
+    descNovedadesElect: ParseModel.parseToString(json["descNovedadesElect"]),
+    descNovedadesElectPadre: ParseModel.parseToString(json["descNovedadesElectPadre"]),
   );
 
   Map<String, dynamic> toJson() => {
@@ -101,6 +110,10 @@ class ObservacionModel {
     "descripcion": descripcion == null ? null : descripcion,
     "direccion": direccion == null ? null : direccion,
     "unidad": unidad == null ? null : unidad,
+
+    "idDgoNovedadesElectPadre": idDgoNovedadesElectPadre == null ? null : idDgoNovedadesElectPadre,
+    "descNovedadesElect": descNovedadesElect == null ? null : descNovedadesElect,
+    "descNovedadesElectPadre": descNovedadesElectPadre == null ? null : descNovedadesElectPadre,
   };
 
  String getJsonString(){
@@ -130,6 +143,10 @@ class ObservacionModel {
     datos.add(ObservacionNombreValue(nombre: "direccion",value: direccion));
     datos.add(ObservacionNombreValue(nombre: "unidad",value: unidad));
     datos.add(ObservacionNombreValue(nombre: "numerico",value: numerico));
+
+    datos.add(ObservacionNombreValue(nombre: "idDgoNovedadesElectPadre",value: idDgoNovedadesElectPadre));
+    datos.add(ObservacionNombreValue(nombre: "descNovedadesElect",value: descNovedadesElect));
+    datos.add(ObservacionNombreValue(nombre: "descNovedadesElectPadre",value: descNovedadesElectPadre));
 
     String resulJson='{';
 

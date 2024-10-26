@@ -136,6 +136,7 @@ class NovedadesElectoralesApi {
   Future<bool> registrarNovedadesElectorales({
     @required BuildContext context,
     @required String idDgoNovedadesElect,
+
     @required String idDgoPerAsigOpe,
     @required String observacion,
     @required String usuario,
@@ -155,6 +156,7 @@ class NovedadesElectoralesApi {
       parametros = {
         ConstApi.varOpc: ConstApi.InsertarNovedadesElectorales,
         "idDgoNovedadesElect": idDgoNovedadesElect,
+
         "idDgoPerAsigOpe": idDgoPerAsigOpe,
         "observacion": observacion,
         "usuario": usuario,

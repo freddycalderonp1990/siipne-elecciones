@@ -257,6 +257,10 @@ class _InicioRapidoPageState extends State<InicioRapidoPage> {
         if (int.parse(datosUser.idGenUsuario) > 0) {
           _UserProvider.setUser = datosUser;
 
+
+
+
+
           bool checkAccesoBiometrico =
               await BiometricUtil.checkAccesoBiometrico();
           bool verificaCredecniales = false;

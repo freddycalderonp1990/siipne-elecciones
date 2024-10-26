@@ -13,6 +13,9 @@ class _registrarNovedadesPageState extends State<registrarNovedadesPage> {
   UserProvider _UserProvider;
   RecintoAbiertoProvider _RecintoProvider;
 
+  // Variable para almacenar la opción seleccionada
+  String selectedOptionNAcionalExtranjero = "Nacional";
+
   DatosPer _datosPers = new DatosPer(idGenPersona: "0");
   GenPersonaApi _genPersonaApi = new GenPersonaApi();
 
@@ -146,7 +149,6 @@ class _registrarNovedadesPageState extends State<registrarNovedadesPage> {
                   iconData: Icons.assignment_sharp,
                   title: "Ver Novedades",
                   colorTextoIcon: Colors.white,
-
                   onTap: () {
                     Navigator.pushNamed(
                         context, AppConfig.pantallaRecElecNovedadesDetalle);
@@ -184,6 +186,44 @@ class _registrarNovedadesPageState extends State<registrarNovedadesPage> {
           height: responsive.altoP(3),
         ),
         btnGuardar(responsive, context)
+      ],
+    );
+  }
+
+  Widget getSelectNacionalExtrtanjero() {
+    return Row(
+      children: [
+        Flexible(
+          child: ListTile(
+            title: Text('Nacional'),
+            leading: Radio<String>(
+              value: 'Nacional',
+              groupValue: selectedOptionNAcionalExtranjero,
+              onChanged: (String value) {
+                setState(() {
+                  selectedOptionNAcionalExtranjero = value;
+                  redibujeWidgets();
+                });
+              },
+            ),
+          ),
+        ),
+        // Opción 2
+        Flexible(
+          child: ListTile(
+            title: Text('Extranjero'),
+            leading: Radio<String>(
+              value: 'Extranjero',
+              groupValue: selectedOptionNAcionalExtranjero,
+              onChanged: (String value) {
+                setState(() {
+                  selectedOptionNAcionalExtranjero = value;
+                  redibujeWidgets();
+                });
+              },
+            ),
+          ),
+        ),
       ],
     );
   }
@@ -312,6 +352,7 @@ class _registrarNovedadesPageState extends State<registrarNovedadesPage> {
       key: _formKey,
       child: Column(
         children: [
+          getSelectNacionalExtrtanjero(),
           ImputTextWidget(
             keyboardType: TextInputType.text,
             controller: controllerNumBoleta,
@@ -364,7 +405,6 @@ class _registrarNovedadesPageState extends State<registrarNovedadesPage> {
                   },
                   iconData: Icons.search,
                   colorTextoIcon: Colors.white,
-
                 ),
               ),
             )
@@ -1422,6 +1462,7 @@ class _registrarNovedadesPageState extends State<registrarNovedadesPage> {
         mostrarFoto = true;
         break;
 
+
       case 44:
         //4. APOYO A UNIDADES POLICIALES
         wg = wgTxtApoyoUnidadesPoliciales(responsive);
@@ -1533,12 +1574,14 @@ class _registrarNovedadesPageState extends State<registrarNovedadesPage> {
         case "DELITOS":
           cedula = controllerCedula.text;
           observacionModel = ObservacionModel(
+            descNovedadesElectPadre: novedadesPadres,
               idDgoNovedadesElect: idNovedades, cedula: controllerCedula.text);
           break;
 
         case "DETENIDOS":
           cedula = controllerCedula.text;
           observacionModel = ObservacionModel(
+              descNovedadesElectPadre: novedadesPadres,
               idDgoNovedadesElect: idNovedades,
               cedula: controllerCedula.text,
               numBoleta: controllerNumBoleta.text);
@@ -1547,6 +1590,7 @@ class _registrarNovedadesPageState extends State<registrarNovedadesPage> {
         case "CITACIONES":
           cedula = controllerCedula.text;
           observacionModel = ObservacionModel(
+              descNovedadesElectPadre: novedadesPadres,
               idDgoNovedadesElect: idNovedades,
               cedula: controllerCedula.text,
               numCitacion: controllerNumCitacion.text);
@@ -1555,6 +1599,7 @@ class _registrarNovedadesPageState extends State<registrarNovedadesPage> {
         case "VOTO EN CASA":
           cedula = 'null';
           observacionModel = ObservacionModel(
+              descNovedadesElectPadre: novedadesPadres,
               idDgoNovedadesElect: idNovedades,
               cedula: null,
               numCitacion: controllerObs.text);
@@ -1563,6 +1608,7 @@ class _registrarNovedadesPageState extends State<registrarNovedadesPage> {
         case "NOV PPL":
           cedula = 'null';
           observacionModel = ObservacionModel(
+              descNovedadesElectPadre: novedadesPadres,
               idDgoNovedadesElect: idNovedades,
               cedula: null,
               numCitacion: controllerObs.text);
@@ -2241,14 +2287,7 @@ class _registrarNovedadesPageState extends State<registrarNovedadesPage> {
           context: context, usuario: usuario, cedula: cedula);
       print("0===============0" + tipoNovedadComboPadre);
       //Con esto obligo a que se actualize el wg
-      final responsive = ResponsiveUtil(context);
-      if (tipoNovedadComboPadre == "21" || tipoNovedadComboPadre == "30") {
-        wgCajaTextosHijas =
-            wgCajasTextoNovedades(int.parse(tipoNovedadComboPadre), responsive);
-      } else {
-        //aqui voy a a redibujar el widget segun la oopcion de novedades
-        wgCajaTextos = wgCajasTexto(tipoNovedadComboPadre, responsive);
-      }
+      redibujeWidgets();
 
       print("_datosPers.apenom");
 
@@ -2262,6 +2301,19 @@ class _registrarNovedadesPageState extends State<registrarNovedadesPage> {
       setState(() {
         peticionServer = false;
       });
+    }
+  }
+
+  redibujeWidgets() {
+    //Con esto obligo a que se actualize el wg
+    final responsive = ResponsiveUtil(context);
+
+    if (tipoNovedadComboPadre == "21" || tipoNovedadComboPadre == "30") {
+      wgCajaTextosHijas =
+          wgCajasTextoNovedades(int.parse(tipoNovedadComboPadre), responsive);
+    } else {
+      //aqui voy a a redibujar el widget segun la oopcion de novedades
+      wgCajaTextos = wgCajasTexto(tipoNovedadComboPadre, responsive);
     }
   }
 
@@ -2290,6 +2342,7 @@ class _registrarNovedadesPageState extends State<registrarNovedadesPage> {
 
   _RegistrarNovedades(
       {@required String idDgoNovedadesElect,
+
       @required String idDgoPerAsigOpe,
       @required String observacion,
       @required String usuario,
@@ -2321,7 +2374,8 @@ class _registrarNovedadesPageState extends State<registrarNovedadesPage> {
           latitud: latitud,
           longitud: longitud,
           cedula: cedula,
-          idDgoProcElec: _RecintoProvider.getRecintoAbierto.idDgoProcElec);
+          idDgoProcElec: _RecintoProvider.getRecintoAbierto.idDgoProcElec,
+         );
 
       setState(() {
         peticionServer = false;

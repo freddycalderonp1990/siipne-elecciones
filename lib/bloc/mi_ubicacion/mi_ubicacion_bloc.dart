@@ -46,8 +46,11 @@ class MiUbicacionBloc extends Bloc<MiUbicacionEvent, MiUbicacionState> {
         print("cambio en posicion");
         print(position);
 
+        var ubicacion= new LatLng(position.latitude, position.longitude);
+        //ubicacion= new LatLng(-1.528295,-78.928932);
 
-        final ubicacion= new LatLng(position.latitude, position.longitude);
+
+
         add(OnUbicacionCambio(ubicacion));
       });
 
