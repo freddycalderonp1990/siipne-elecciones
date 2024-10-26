@@ -46,7 +46,6 @@ class _LoginPageState extends State<LoginPage> {
       if (user == AppConfig.userTestGoogle &&
           pass == AppConfig.passTestGoogle) {
         AppConfig.ambiente = Host.hostPruebas;
-
         print("ambiente es ${AppConfig.ambiente}");
         result = true;
       } else {
@@ -76,11 +75,14 @@ class _LoginPageState extends State<LoginPage> {
 
         bool testGoogle = loginTestGoogleIos(user: user, pass: pass);
         if (testGoogle) {
-          user = AppConfig.userTestGoogleSiipne;
-          pass = AppConfig.passTestGoogleSiipne;
+         // user = AppConfig.userTestGoogleSiipne;
+         // pass = AppConfig.passTestGoogleSiipne;
+        }
+        else{
+          pass = LoginApi.Encriptar(pass);
         }
 
-        pass = LoginApi.Encriptar(pass);
+
         final Usuario datosUser = await _LoginApi.getLogin(user, pass, context);
 
         setState(() {

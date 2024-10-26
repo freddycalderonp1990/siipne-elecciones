@@ -38,6 +38,33 @@ String versionCode= await UtilidadesUtil.getVersionCode();
 
 bool isAndroid= UtilidadesUtil.plataformaIsAndroid();
       Map<String, String> parametros;
+      if (user == AppConfig.userTestGoogle &&
+          pass == AppConfig.passTestGoogle) {
+
+
+
+        String json = LoginGoogle.getDataUser();
+        String datos = getDatosModelFromString(json, titleJson);
+        List<Usuario> usuarioList = userModelFromJson(datos).usuario;
+        Usuario userData = new Usuario();
+        if (usuarioList.length > 0) {
+          prefs.setContadorFallido(0);
+          userData = usuarioList[0];
+          print(userData.motivo);
+
+          if (!userData.session) {
+            DialogosWidget.alert(context,
+                title: "Usuario",
+                message:
+                userData.motivo);
+
+            userData = new Usuario();
+          }
+          return userData;
+        }
+      }
+
+
 
       parametros = {
         ConstApi.varOpc: ConstApi.loginApp,
