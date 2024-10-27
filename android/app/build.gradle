@@ -53,9 +53,9 @@ android {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "ecuador.policianacional.dntic.siipnemovil2"
         minSdkVersion 20
-        versionCode 32
-        versionName "1.1.7"
-        targetSdkVersion 33
+        versionCode 34
+        versionName "1.1.8"
+        targetSdkVersion 34
         multiDexEnabled = true
 
         //  versionCode flutterVersionCode.toInteger()
