@@ -365,13 +365,14 @@ class _registrarNovedadesPageState extends State<registrarNovedadesPage> {
             fonSize: responsive.anchoP(AppConfig.tamTextoTitulo),
             validar: validateNumBoleta,
           ),
+
           getWgCedulaWithFind(responsive)
         ],
       ),
     );
   }
 
-  Widget getWgCedulaWithFind(ResponsiveUtil responsive) {
+  Widget getWgCedulaWithFind(ResponsiveUtil responsive, {bool validar = true}) {
     var _keyColumna = GlobalKey();
 
     return Column(
@@ -390,7 +391,9 @@ class _registrarNovedadesPageState extends State<registrarNovedadesPage> {
                 ),
                 label: VariablesUtil.cedula,
                 fonSize: responsive.anchoP(AppConfig.tamTextoTitulo),
-                validar: validateCedula,
+                validar: selectedOptionNAcionalExtranjero == "Nacional"
+                    ? validateCedula
+                    : null,
               ),
             ),
             Expanded(
@@ -399,7 +402,18 @@ class _registrarNovedadesPageState extends State<registrarNovedadesPage> {
                 padding: EdgeInsets.all(10),
                 child: BtnIconWidget(
                   onTap: () {
+                    bool validar =
+                        selectedOptionNAcionalExtranjero == "Nacional"
+                            ? true
+                            : false;
+
+                    print("selectpadre ${novedadesPadres}");
+                    if (novedadesPadres != "DETENIDOS") {
+                      validar = false;
+                    }
+
                     _consultarDatosPersonaPorDocumento(
+                        validar: validar,
                         cedula: controllerCedula.text,
                         usuario: _UserProvider.getUser.idGenUsuario);
                   },
@@ -1462,7 +1476,6 @@ class _registrarNovedadesPageState extends State<registrarNovedadesPage> {
         mostrarFoto = true;
         break;
 
-
       case 44:
         //4. APOYO A UNIDADES POLICIALES
         wg = wgTxtApoyoUnidadesPoliciales(responsive);
@@ -1574,8 +1587,9 @@ class _registrarNovedadesPageState extends State<registrarNovedadesPage> {
         case "DELITOS":
           cedula = controllerCedula.text;
           observacionModel = ObservacionModel(
-            descNovedadesElectPadre: novedadesPadres,
-              idDgoNovedadesElect: idNovedades, cedula: controllerCedula.text);
+              descNovedadesElectPadre: novedadesPadres,
+              idDgoNovedadesElect: idNovedades,
+              cedula: controllerCedula.text);
           break;
 
         case "DETENIDOS":
@@ -2264,15 +2278,21 @@ class _registrarNovedadesPageState extends State<registrarNovedadesPage> {
   }
 
   _consultarDatosPersonaPorDocumento(
-      {@required String cedula, @required String usuario}) async {
+      {@required String cedula,
+      @required String usuario,
+      bool validar = true}) async {
     try {
       bool isValid = true;
       if (validarForm) {
         isValid = _formKey.currentState.validate();
       }
-      print("unoooo");
+      print("unoooo ${isValid}");
 
-      if (!isValid) {
+      if (!isValid && validar == true) {
+        return;
+      }
+
+      if(cedula.length==0){
         return;
       }
       print("dosososososos");
@@ -2282,6 +2302,8 @@ class _registrarNovedadesPageState extends State<registrarNovedadesPage> {
       setState(() {
         peticionServer = true;
       });
+
+
 
       _datosPers = await _genPersonaApi.getDatosPersona(
           context: context, usuario: usuario, cedula: cedula);
@@ -2342,7 +2364,6 @@ class _registrarNovedadesPageState extends State<registrarNovedadesPage> {
 
   _RegistrarNovedades(
       {@required String idDgoNovedadesElect,
-
       @required String idDgoPerAsigOpe,
       @required String observacion,
       @required String usuario,
@@ -2363,19 +2384,19 @@ class _registrarNovedadesPageState extends State<registrarNovedadesPage> {
           _UserProvider.getUser.ubicacionSeleccionada.longitude.toString();
 
       await _novedadesElectoralesApi.registrarNovedadesElectorales(
-          context: context,
-          idDgoPerAsigOpe: idDgoPerAsigOpe,
-          usuario: usuario,
-          idDgoNovedadesElect: idDgoNovedadesElect,
-          observacion: observacion,
-          idGenPersonaD: idGenPersonaD,
-          nombreDetenido: nombreDetenido,
-          imagen: imagen,
-          latitud: latitud,
-          longitud: longitud,
-          cedula: cedula,
-          idDgoProcElec: _RecintoProvider.getRecintoAbierto.idDgoProcElec,
-         );
+        context: context,
+        idDgoPerAsigOpe: idDgoPerAsigOpe,
+        usuario: usuario,
+        idDgoNovedadesElect: idDgoNovedadesElect,
+        observacion: observacion,
+        idGenPersonaD: idGenPersonaD,
+        nombreDetenido: nombreDetenido,
+        imagen: imagen,
+        latitud: latitud,
+        longitud: longitud,
+        cedula: cedula,
+        idDgoProcElec: _RecintoProvider.getRecintoAbierto.idDgoProcElec,
+      );
 
       setState(() {
         peticionServer = false;
