@@ -1,3 +1,18 @@
+#Problema
+Invalid `Podfile` file: undefined method `exists?' for File:Class. # from /Users/user/Documents/siipne-elecciones-master/ios/Podfile:34 # ------------------------------------------- # > flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
+
+#solucion
+ tried this way and it worked, open this file in your flutter sdk:
+
+flutter/packages/flutter_tools/bin/pod_helper.rb
+Then replace
+
+return [] unless File.exists? file_path
+to
+
+return [] unless File.exist? file_path
+
+
 #Solucion Cuando no compila para subir en Ios
 error:Command PhaseScriptExecution failed with a nonzero exit code
 solucion:
