@@ -24,9 +24,6 @@ void main() async {
 // add this, and it should be the first line in main method
   WidgetsFlutterBinding.ensureInitialized();
 
-
-
-
   final prefs = new PreferenciasUsuario();
   await prefs.initPrefs();
 
