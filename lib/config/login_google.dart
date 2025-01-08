@@ -9,7 +9,7 @@ class LoginGoogle {
         "idGenUsuario": 55948,
         "idGenPersona": 724115,
         "nombreUsuario": "testGooglePoliciaEcuador",
-          "apenom": "TEST. GOOGLE - POLICÍA ECUADOR",
+          "apenom": "TEST. POLICÍA ECUADOR",
         "documento": "000000000",
         "sexoPerson": "HOMBRE",
         "actualizarApp": false,
