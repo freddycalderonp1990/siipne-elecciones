@@ -90,7 +90,7 @@ class VariablesUtil {
   static const canton = "Cantón";
   static const recintoElectoral = "Recinto Electoral";
   static const codigo = "Código";
-  static const cedula = "Cédula";
+  static const cedula = "# Documento";
   static const cedulaSP = "Cédula Servid@r Policial";
   static const numBoleta = "Número Boleta";
   static const numCitacion = "Número Citacion";

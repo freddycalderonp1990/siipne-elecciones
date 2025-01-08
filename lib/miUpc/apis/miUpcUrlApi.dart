@@ -4,7 +4,7 @@ class MiUpcUrlApi {
 
  // static String ambiente=UrlApi.ambiente;
 
-  static String ambiente=Host.hostDesarrollo;
+  static String ambiente=Host.hostPruebas;
   static String host = Host.gethost(ambiente); //Pruebas
 
   static const _pathUrl = "movil/miupc/index.php"; //ruta del arhivo index

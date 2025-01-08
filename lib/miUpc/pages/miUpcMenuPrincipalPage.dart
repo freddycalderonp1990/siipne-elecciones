@@ -170,6 +170,10 @@ class _MiUpcMenuPrincipalPageState extends State<MiUpcMenuPrincipalPage> {
                     itemBuilder: (context, ind) {
                       imgMemory = PhotoHelper.convertStringToUint8List(
                           listaModulo[ind].imgBase64);
+                          if(ind==0){
+                            return Container();
+                          
+                          }
                       return InkWell(
                         onTap: () => muestraPantalla(ind, context),
                         child: Container(
