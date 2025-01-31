@@ -92,7 +92,7 @@ class _ComboConBusquedaState extends State<ComboConBusqueda> {
                     SizedBox(height: 10),
                     Container(
                       height: responsibe.altoP(50),
-                      width: responsibe.anchoP(90),
+                      width: responsibe.anchoP(100),
                       child: ListView.builder(
                         shrinkWrap: true,
                         itemCount: _filteredItems.length,

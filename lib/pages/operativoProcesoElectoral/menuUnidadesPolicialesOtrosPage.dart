@@ -146,7 +146,7 @@ class _MenuUnidadesPolicialesOtrosPageState
         SizedBox(
           height: responsive.altoP(separacionBtnMenu),
         ),
-        BtnMenuWidget(
+       /* BtnMenuWidget(
             img: AppConfig.icon_eliminar_rec_elec,
             titlte: "ELIMINAR CÓDIGO",
             onTap: () {
@@ -156,9 +156,7 @@ class _MenuUnidadesPolicialesOtrosPageState
                 message: "Si abrió el Operativo por error y necesita eliminarlo, por favor comuníquese con el administrador de su unidad."
                ,);
 
-            }),
-
-
+            }),*/
 
 
          BtnMenuWidget(
