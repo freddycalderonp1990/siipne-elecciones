@@ -1,6 +1,6 @@
 part of 'combosWidget.dart';
 
-class ComboConBusqueda extends StatefulWidget {
+class ComboConBusquedaOld extends StatefulWidget {
   final String title;
   final ValueChanged<String> complete;
   final List<String> datos;
@@ -8,7 +8,7 @@ class ComboConBusqueda extends StatefulWidget {
   final String searchHint;
   final String selectValue;
 
-  const ComboConBusqueda(
+  const ComboConBusquedaOld(
       {Key key,
       this.complete,
       @required this.datos,
@@ -18,10 +18,10 @@ class ComboConBusqueda extends StatefulWidget {
       : super(key: key);
 
   @override
-  _ComboConBusquedaState createState() => _ComboConBusquedaState();
+  _ComboConBusquedaOldState createState() => _ComboConBusquedaOldState();
 }
 
-class _ComboConBusquedaState extends State<ComboConBusqueda> {
+class _ComboConBusquedaOldState extends State<ComboConBusquedaOld> {
   @override
   void initState() {
     super.initState();
@@ -69,6 +69,7 @@ class _ComboConBusquedaState extends State<ComboConBusqueda> {
 
 
               DropdownButton<String>(
+
                 isExpanded: true,
                 value: widget.selectValue,
                 icon: const Icon(Icons.expand_more),

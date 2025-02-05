@@ -67,6 +67,7 @@ class _MenuRecintoElectoralState extends State<MenuRecintoElectoral> {
     return WorkAreaPageWidget(
       imgFondo: AppConfig.imgFondoElecciones,
       peticionServer: peticionServer,
+
       title: nombreRecinto != ""
           ? nombreRecinto
           : "MENÚ SISTEMA RECINTO ELECTORAL",

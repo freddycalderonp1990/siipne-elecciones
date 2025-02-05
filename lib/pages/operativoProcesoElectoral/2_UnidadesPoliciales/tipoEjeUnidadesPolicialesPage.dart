@@ -44,6 +44,7 @@ class _TipoEjeUnidadesPolicialesPageState
 
   @override
   Widget build(BuildContext context) {
+
     final responsive = ResponsiveUtil(context);
     _UserProvider = UserProvider.of(context);
     _ProcesoOperativoProvider = ProcesoOperativoProvider.of(context);
@@ -59,6 +60,12 @@ class _TipoEjeUnidadesPolicialesPageState
       title: VariablesUtil.UNIDADESPOLICIALES,
       sizeTittle: 7,
       contenido: [
+
+
+
+
+
+
         Container(
           padding: EdgeInsets.all(5),
           child: Column(
@@ -138,8 +145,10 @@ class _TipoEjeUnidadesPolicialesPageState
   Widget getComboNovedadesPadres(ResponsiveUtil responsive) {
     List<String> datos =
         getDatosUnidadesPoliciales(_listUnidadesPolicialesPadres);
-    return _listUnidadesPolicialesPadres.length > 0
-        ? Container(
+
+
+    return  _listUnidadesPolicialesPadres.length > 0
+        ?Container(
             padding: EdgeInsets.symmetric(horizontal: paddingContenido),
             child: ComboConBusqueda(
               selectValue: unidadPolicialPadre,

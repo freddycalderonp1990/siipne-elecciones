@@ -12,6 +12,7 @@ class VariablesUtil {
   static const Instalacion = "Instalación";
 
   static const DIRECCION = "";
+
   static const DIRECCIONDNSP = "";
   static const Usuario = "Usuario";
   static const Clave = "Clave";
