@@ -146,7 +146,20 @@ class _MenuUnidadesPolicialesOtrosPageState
         SizedBox(
           height: responsive.altoP(separacionBtnMenu),
         ),
-        BtnMenuWidget(
+       /* BtnMenuWidget(
+            img: AppConfig.icon_eliminar_rec_elec,
+            titlte: "ELIMINAR CÓDIGO",
+            onTap: () {
+              DialogosWidget.alert(
+                context,
+                title: "Información",
+                message: "Si abrió el Operativo por error y necesita eliminarlo, por favor comuníquese con el administrador de su unidad."
+               ,);
+
+            }),*/
+
+
+         BtnMenuWidget(
             img: AppConfig.icon_finalizar_rec_elec,
             titlte: VariablesUtil.FinalizarOperativo,
             onTap: () {
@@ -155,7 +168,7 @@ class _MenuUnidadesPolicialesOtrosPageState
         SizedBox(
           height: responsive.altoP(separacionBtnMenu),
         ),
-        BtnMenuWidget(
+      BtnMenuWidget(
             img: AppConfig.icon_eliminar_rec_elec,
             titlte: VariablesUtil.EliminarOperativo,
             onTap: () {
